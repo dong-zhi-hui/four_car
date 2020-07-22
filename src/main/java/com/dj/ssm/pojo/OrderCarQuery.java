@@ -4,12 +4,15 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * @author zhw
+ */
 @Data
-public class UserQuery implements Serializable {
+public class OrderCarQuery implements Serializable {
 
     private String userName;
 
     private Integer pageNo;
 
-    private Integer pageNoSize = 2;
+    private Integer pageSize = 2;
 }

@@ -6,8 +6,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <html>
 <head>
     <title>Title</title>
@@ -20,11 +18,6 @@
         $(function () {
             show();
         })
-
-        function search() {
-            $("#pageNo").val(1);
-            show();
-        }
 
         function show() {
             var index = layer.load(1,{shade:0.5});
@@ -79,12 +72,8 @@
     </script>    
 </head>
 <body>
-<form id = "fm" align="center">
+<form id = "fm">
     <input type="hidden" value="1" id="pageNo" name="pageNo"/>
-<c:if test="${user.level == 3}">
-    搜用户名：<input type="text" name="userName" style="width: 230px; height: 30px" >
-    <input  type = "button" value = "搜索"  class="layui-btn" onclick="search()">
-</c:if>
 </form>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
     <legend>用户展示</legend>
