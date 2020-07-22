@@ -10,4 +10,6 @@ public class UserQuery implements Serializable {
     private Integer pageNo;
 
     private Integer pageNoSize = 2;
+
+    private String userName;
 }

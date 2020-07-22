@@ -35,6 +35,7 @@
     账号<input type="text" name="userName"/><br/>
     密码<input type="text" name="userPwd"/><br/>
     <button type="button" onclick="login()">"登录"</button>
+    <a href="<%=request.getContextPath()%>/user/toRegister">注册</a>
 </form>
 </body>
 </html>
