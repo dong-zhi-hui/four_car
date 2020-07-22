@@ -34,10 +34,7 @@ public class User {
      */
     private String phone;
 
-    /**
-     * 车牌号
-     */
-    private String carNumber;
+
 
     /**
      * 用户状态
