@@ -18,12 +18,12 @@ public class TruckSpace {
     /*** 车位编号*/
     private String carNumber;
 
-    /*** 车位编号*/
+    /*** 车位价格*/
     private BigDecimal price;
 
-    /*** 车位编号*/
+    /*** 车位状态0 无车 1有车*/
     private Integer carStatus;
 
-    /*** 车位编号*/
+    /*** 车位等级0:普通车位 1:会员车位*/
     private Integer carLevel;
 }
