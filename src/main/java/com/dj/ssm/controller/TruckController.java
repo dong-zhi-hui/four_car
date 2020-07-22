@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * @author zhw
+ */
 @RestController
 @RequestMapping("/truck/")
 public class TruckController {
@@ -31,9 +35,9 @@ public class TruckController {
             if(StringUtils.hasText(truckSpaceQuery.getCarNumber())){
                 queryWrapper.eq("car_number", truckSpaceQuery.getCarNumber());
             }
-            IPage<TruckSpace> userIPage = truckService.page(page, queryWrapper);
-            map.put("list", userIPage.getRecords());
-            map.put("pages", userIPage.getPages());
+            IPage<TruckSpace> truckIPage = truckService.page(page, queryWrapper);
+            map.put("list", truckIPage.getRecords());
+            map.put("pages", truckIPage.getPages());
             return new ResultModel().success(map);
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,9 +45,26 @@ public class TruckController {
         }
     }
 
+    @RequestMapping("update")
+    public ResultModel update(TruckSpace truckSpace){
+        try {
+            truckService.updateById(truckSpace);
+            return new ResultModel().success(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel().error(e.getMessage());
+        }
+    }
 
-
-
+    @RequestMapping("del")
+    public ResultModel del(Integer id){
+        try {
+            return new ResultModel().success(truckService.removeById(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel().error(e.getMessage());
+        }
+    }
 
 
 

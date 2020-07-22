@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 分页查询类
+ * @author zhw
  */
 @Data
 public class TruckSpaceQuery implements Serializable {

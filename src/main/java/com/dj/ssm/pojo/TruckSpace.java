@@ -7,6 +7,9 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 
+/**
+ * @author zhw
+ */
 @Data
 @TableName("truck_space")
 public class TruckSpace {

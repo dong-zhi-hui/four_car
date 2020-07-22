@@ -6,6 +6,9 @@ import com.dj.ssm.pojo.TruckSpace;
 import com.dj.ssm.service.TruckService;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author zhw
+ */
 @Service
 public class TruckServiceImpl extends ServiceImpl<TruckMapper, TruckSpace> implements TruckService {
 }

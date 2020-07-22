@@ -30,7 +30,7 @@
     </script>
 
 </head>
-<body>
+<body align="center">
 <form id = "fm" >
     账号<input type="text" name="userName"/><br/>
     密码<input type="text" name="userPwd"/><br/>
