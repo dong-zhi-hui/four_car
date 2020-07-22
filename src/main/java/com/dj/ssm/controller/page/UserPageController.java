@@ -16,4 +16,9 @@ public class UserPageController {
     public String toShow(){
         return "user/show";
     }
+
+    @RequestMapping("toRegister")
+    public String toRegister(){
+        return "user/register";
+    }
 }
