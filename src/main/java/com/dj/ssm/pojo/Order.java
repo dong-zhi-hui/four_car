@@ -7,37 +7,41 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("user")
-public class User {
+@TableName("order")
+public class Order {
 
     /** id */
     @TableId(type = IdType.AUTO)
     private Integer id;
 
+    /** 订单号 */
+    private String orderNumber;
+
     /** 用户名 */
     private String userName;
 
-    /** 密码 */
-    private String userPwd;
-
     /** 手机号 */
     private String phone;
-
-    /** 车牌号 */
-    private String plateNumber;
-
-    /** 用户状态 */
-    private Integer userStatus;
 
     /** 创建时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
-    /** 等级 */
-    private Integer level;
+    /** 车牌号 */
+    private String plateNumber;
+
+    /** 车位编号 */
+    private String carNumber;
+
+    /**  支付金额*/
+    private BigDecimal price;
+
+    /**  支付状态 0:待支付 1已支付*/
+    private Integer orderStatus;
 
 }
