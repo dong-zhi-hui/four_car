@@ -21,15 +21,15 @@ public class Message {
     private Integer id;
 
     /** 留言内容 */
-    private String message_contents;
+    private String messageContents;
 
     /** 留言时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date create_time;
+    private Date createTime;
 
     /** 留言人 */
-    private String user_name;
+    private String userName;
 
     /** 回复内容 */
     private String response;
@@ -37,10 +37,10 @@ public class Message {
     /** 回复时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date response_time;
+    private Date responseTime;
 
     /** 回复人 */
-    private String response_name;
+    private String responseName;
 
 
 

@@ -9,10 +9,10 @@
 
 </head>
 <frameset rows="20%,80%">
-	<frame src="<%=request.getContextPath()%>/index/toTop?token=${token}" name="top">
+	<frame src="<%=request.getContextPath()%>/index/toTop" name="top">
 	<frameset cols="20%,80%">
-		<frame src="<%=request.getContextPath()%>/index/toLeft?token=${token}" name="left" />
-		<frame src="<%=request.getContextPath()%>/index/toRight?token=${token}" name="right" />
+		<frame src="<%=request.getContextPath()%>/index/toLeft" name="left" />
+		<frame src="<%=request.getContextPath()%>/index/toRight" name="right" />
 	</frameset>
 </frameset>
 </html>

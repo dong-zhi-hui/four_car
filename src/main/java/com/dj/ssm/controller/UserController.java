@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping("/user/")
 public class UserController {
@@ -22,7 +24,7 @@ public class UserController {
      * @return
      */
     @RequestMapping("login")
-    public ResultModel login(User user, Model model){
+    public ResultModel login(User user, Model model, HttpSession session){
         try {
             if(user.getUserName().isEmpty() || user.getUserPwd().isEmpty()){
                 return new ResultModel().success("账号或密码不能为空");
@@ -34,6 +36,7 @@ public class UserController {
             if(null == u){
                 return new ResultModel().success("账号或密码错误");
             }
+            session.setAttribute("user", u);
             model.addAttribute("user",u);
             return new ResultModel().success();
         } catch (Exception e) {
