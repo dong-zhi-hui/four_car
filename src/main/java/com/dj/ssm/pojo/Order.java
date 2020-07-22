@@ -10,8 +10,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * @author zhw
+ */
 @Data
-@TableName("order")
+@TableName("order_car")
 public class Order {
 
     /** id */

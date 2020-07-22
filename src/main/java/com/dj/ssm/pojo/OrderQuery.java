@@ -8,9 +8,9 @@ import java.io.Serializable;
  * @author zhw
  */
 @Data
-public class TruckSpaceQuery implements Serializable {
+public class OrderQuery implements Serializable {
 
-    private String carNumber;
+    private String userName;
 
     private Integer pageNo;
 

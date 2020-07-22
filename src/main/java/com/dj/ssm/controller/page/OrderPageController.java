@@ -6,19 +6,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * @author zhw
  */
+@RequestMapping("/order/")
 @Controller
-@RequestMapping("/truck/")
-public class TruckPageController {
-
+public class OrderPageController {
 
     @RequestMapping("toList")
     public String toList(){
-        return "truck/list";
+        return "order/list";
     }
-
-
-
-
 
 
 }
