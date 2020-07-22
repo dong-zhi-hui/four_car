@@ -56,7 +56,7 @@ public class UserController {
         try {
             Map<String,Object> map = new HashMap<>();
             //分页
-            IPage<User> page = new Page<>(userQuery.getPageNo(), userQuery.getPageNoSize());
+            Page<User> page = new Page<>(userQuery.getPageNo(), userQuery.getPageNoSize());
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
             IPage<User> pageInfo = userService.page(page,queryWrapper);
             map.put("user",pageInfo.getRecords());

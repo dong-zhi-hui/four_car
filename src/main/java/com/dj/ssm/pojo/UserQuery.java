@@ -2,10 +2,12 @@ package com.dj.ssm.pojo;
 
 import lombok.Data;
 
-@Data
-public class UserQuery {
+import java.io.Serializable;
 
-    private Integer pageNo = 1;
+@Data
+public class UserQuery implements Serializable {
+
+    private Integer pageNo;
 
     private Integer pageNoSize = 2;
 }

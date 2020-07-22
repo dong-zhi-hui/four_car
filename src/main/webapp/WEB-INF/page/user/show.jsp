@@ -9,8 +9,10 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/static/layui-v2.5.6/layui/css/layui.css"  media="all">
     <script type="text/javascript" src = "<%=request.getContextPath()%>/static/js/jquery-1.12.4.js"></script>
     <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layer-v3.1.1/layer/layer.js"></script>
+    <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layui-v2.5.6/layui/layui.js"></script>
     <script type="text/javascript">
         
         $(function () {
@@ -20,7 +22,7 @@
         function show() {
             var index = layer.load(1,{shade:0.5});
             $.post("<%=request.getContextPath()%>/user/show",
-                $("#tbd").serialize(),
+                $("#fm").serialize(),
                 function (data) {
                     layer.close(index);
                     if(data.code != 200){
@@ -35,6 +37,7 @@
                         html += "<td>"+u.id+"</td>";
                         html += "<td>"+u.userName+"</td>";
                         html += "<td>"+u.phone+"</td>";
+                        html += "<td>"+u.plateNumber+"</td>";
                         html += "<td>"+u.userStatus+"</td>";
                         html += "<td>"+u.createTime+"</td>";
                         html += "<td>"+u.level+"</td>";
@@ -48,27 +51,22 @@
         }
         //分页
         function page(temp,pages){
-            var index = layer.load(1,{shade:0.5});
             var page = $("#pageNo").val();
             if(temp == 0) {
-                layer.close(index);
                 if(parseInt(page) - 1 < 1) {
-                    layer.msg("已是首页", {icon: 6});
+                    layer.msg("已是首页", {icon: 5, time: 2000});
                     return;
                 }
                 $("#pageNo").val(parseInt(page) - 1);
             }
             if(temp == 1){
-                layer.close(index);
                 if(parseInt(page) + 1 > pages){
-                    layer.msg("已经尾页了", {icon: 6});
+                    layer.msg("已是尾页", {icon: 5, time: 2000});
                     return;
                 }
                 $("#pageNo").val(parseInt(page) + 1);
-
             }
             show();
-
         }
 
     </script>    
@@ -77,7 +75,17 @@
 <form id = "fm">
     <input type="hidden" value="1" id="pageNo" name="pageNo"/>
 </form>
-<table align="center" border = "1px" cellpadding = "10" cellspacing = "0">
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>用户展示</legend>
+</fieldset>
+<div class="layui-form">
+    <table class="layui-table">
+        <colgroup>
+            <col width="150">
+            <col width="150">
+            <col width="150">
+        </colgroup>
+        <thead>
     <tr>
         <td>id</td>
         <td>姓名</td>
@@ -88,9 +96,9 @@
         <td>等级</td>
     </tr>
     <tbody id = "tbd">
-
     </tbody>
 </table>
+</div>
 <div id="pageInfo" align="center">
 </div>
 </body>
