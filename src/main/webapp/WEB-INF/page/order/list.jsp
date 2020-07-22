@@ -18,7 +18,7 @@
 
 	function search() {
         var index = layer.load(1,{shade:0.5});
-		$.post("<%=request.getContextPath()%>/truck/show",
+		$.post("<%=request.getContextPath()%>/order/show",
 			$("#fm").serialize(),
 			function(data){
                 layer.close(index);
@@ -28,22 +28,25 @@
 					var d = data.data.list[i];
                     html += "<tr>";
                     html += "<td>"+d.id+"</td>";
+                    html += "<td>"+d.orderNumber+"</td>";
+                    html += "<td>"+d.userName+"</td>";
+                    html += "<td>"+d.phone+"</td>";
+                    html += "<td>"+d.createTime+"</td>";
+                    html += "<td>"+d.plateNumber+"</td>";
                     html += "<td>"+d.carNumber+"</td>";
                     html += "<td>"+d.price+"</td>";
-                    if(d.carStatus==0){
-                        html += "<td>空置</td>";
+                    if(d.orderStatus==0){
+                        html += "<td>待付款</td>";
                     }
-                    if(d.carStatus==1){
-                        html += "<td>已预约</td>";
+                    if(d.orderStatus==1){
+                        html += "<td>订单完成</td>";
                     }
-                    if (${user.level==3}){
-                        html += "<td>"
-                        html += "<div class='layui-btn-group'>"
-                        html += "<button type='button' class='layui-btn layui-btn-sm' onclick='update("+d.id+")'>修改</button>"
-                        html += "<button type='button' class='layui-btn layui-btn-sm' onclick='del("+d.id+")'>删除</button>"
-                        html += "</div>"
-                        html += "</td>"
-                    }
+                    html += "<td>"
+                    html += "<div class='layui-btn-group'>"
+                    html += "<button type='button' class='layui-btn layui-btn-sm' onclick='update("+d.id+")'>修改</button>"
+                    html += "<button type='button' class='layui-btn layui-btn-sm' onclick='del("+d.id+")'>删除</button>"
+                    html += "</div>"
+                    html += "</td>"
                     html += "</tr>";
 				}
                 $("#tbd").html(html);
@@ -81,14 +84,14 @@
 			  shadeClose: true,
 			  shade: 0.8,
 			  area: ['380px', '90%'],
-			  content: '<%=request.getContextPath()%>/truck/toUpdate/'+id
+			  content: '<%=request.getContextPath()%>/order/toUpdate/'+id
 			}); 
 	}
 
 	function del(id) {
 		var index = layer.load(1,{shade:0.5});
 		$.post(
-			"<%=request.getContextPath()%>/truck/del",
+			"<%=request.getContextPath()%>/order/del",
 			{"id":id},
 			function(data){
 				layer.close(index);
@@ -109,7 +112,7 @@
 <body>
 <form id="fm" align="center">
 <input type="hidden" value="1" id="pageNo" name="pageNo"/>
-搜车位：<input type="text" name="carNumber" style="width: 230px; height: 30px" >
+搜姓名：<input type="text" name="userName" style="width: 230px; height: 30px" >
 <input  type = "button" value = "搜索"  class="layui-btn" onclick="find()">
 </form>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
@@ -125,18 +128,20 @@
      <thead>
       <tr>
 		<th>序号</th>
+		<th>订单编号</th>
+		<th>姓名</th>
+		<th>电话</th>
+		<th>创建时间</th>
+		<th>车牌号</th>
 		<th>车位编号</th>
-		<th>车位价格</th>
-		<th>车位状态</th>
-          <c:if test="${user.level==3}">
-              <th>操作</th>
-          </c:if>
+		<th>支付金额</th>
+		<th>订单状态</th>
+          <th>操作</th>
       </tr> 
     </thead>
      <tbody id="tbd"></tbody>
   </table>
 </div>
 <div id="pageInfo" align="center">
-
 </body>
 </html>
