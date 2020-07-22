@@ -45,9 +45,26 @@ public class TruckController {
         }
     }
 
+    @RequestMapping("update")
+    public ResultModel update(TruckSpace truckSpace){
+        try {
+            truckService.updateById(truckSpace);
+            return new ResultModel().success(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel().error(e.getMessage());
+        }
+    }
 
-
-
+    @RequestMapping("del")
+    public ResultModel del(Integer id){
+        try {
+            return new ResultModel().success(truckService.removeById(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel().error(e.getMessage());
+        }
+    }
 
 
 

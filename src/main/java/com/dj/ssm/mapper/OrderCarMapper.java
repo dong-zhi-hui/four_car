@@ -1,10 +1,10 @@
 package com.dj.ssm.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.dj.ssm.pojo.Order;
+import com.dj.ssm.pojo.OrderCar;
 
 /**
  * @author zhw
  */
-public interface OrderMapper extends BaseMapper<Order> {
+public interface OrderCarMapper extends BaseMapper<OrderCar> {
 }

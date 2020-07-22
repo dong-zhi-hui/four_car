@@ -36,12 +36,14 @@
                     if(d.carStatus==1){
                         html += "<td>已预约</td>";
                     }
-                    html += "<td>"
-                    html += "<div class='layui-btn-group'>"
-                    html += "<button type='button' class='layui-btn layui-btn-sm' onclick='update("+d.id+")'>修改</button>"
-                    html += "<button type='button' class='layui-btn layui-btn-sm' onclick='del("+d.id+")'>删除</button>"
-                    html += "</div>"
-                    html += "</td>"
+                    if (${user.level==3}){
+                        html += "<td>"
+                        html += "<div class='layui-btn-group'>"
+                        html += "<button type='button' class='layui-btn layui-btn-sm' onclick='update("+d.id+")'>修改</button>"
+                        html += "<button type='button' class='layui-btn layui-btn-sm' onclick='del("+d.id+")'>删除</button>"
+                        html += "</div>"
+                        html += "</td>"
+                    }
                     html += "</tr>";
 				}
                 $("#tbd").html(html);
@@ -126,7 +128,9 @@
 		<th>车位编号</th>
 		<th>车位价格</th>
 		<th>车位状态</th>
-          <th>操作</th>
+          <c:if test="${user.level==3}">
+              <th>操作</th>
+          </c:if>
       </tr> 
     </thead>
      <tbody id="tbd"></tbody>

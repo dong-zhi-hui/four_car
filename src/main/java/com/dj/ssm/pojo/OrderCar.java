@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("order_car")
-public class Order {
+public class OrderCar {
 
     /** id */
     @TableId(type = IdType.AUTO)

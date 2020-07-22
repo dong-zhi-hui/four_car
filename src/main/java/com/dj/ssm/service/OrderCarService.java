@@ -1,10 +1,10 @@
 package com.dj.ssm.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.dj.ssm.pojo.Order;
+import com.dj.ssm.pojo.OrderCar;
 
 /**
  * @author zhw
  */
-public interface OrderService extends IService<Order> {
+public interface OrderCarService extends IService<OrderCar> {
 }

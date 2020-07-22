@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @RequestMapping("/order/")
 @Controller
-public class OrderPageController {
+public class OrderCarPageController {
 
     @RequestMapping("toList")
     public String toList(){

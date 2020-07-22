@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author zhw
  */
 @Data
-public class OrderQuery implements Serializable {
+public class OrderCarQuery implements Serializable {
 
     private String userName;
 
