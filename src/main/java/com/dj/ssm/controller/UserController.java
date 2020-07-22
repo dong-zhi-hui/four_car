@@ -8,11 +8,15 @@ import com.dj.ssm.pojo.User;
 import com.dj.ssm.pojo.UserQuery;
 import com.dj.ssm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,13 +55,27 @@ public class UserController {
 
     }
 
+    /**
+     * 用户展示
+     * @param userQuery
+     * @param user
+     * @return
+     */
     @RequestMapping("show")
-    public ResultModel show(UserQuery userQuery){
+    public ResultModel show(UserQuery userQuery, @SessionAttribute("user") User user){
         try {
             Map<String,Object> map = new HashMap<>();
             //分页
             Page<User> page = new Page<>(userQuery.getPageNo(), userQuery.getPageNoSize());
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            //用户名查询
+            if(StringUtils.hasText(userQuery.getUserName())){
+                queryWrapper.eq("user_name", userQuery.getUserName());
+            }
+            //条件限定
+            if(user.getLevel() != 3){
+                queryWrapper.eq("id", user.getId());
+            }
             IPage<User> pageInfo = userService.page(page,queryWrapper);
             map.put("user",pageInfo.getRecords());
             map.put("pages", pageInfo.getPages());
@@ -68,4 +86,50 @@ public class UserController {
             return new ResultModel().error("服务器异常");
         }
     }
+
+    /**
+     * 姓名  手机号  车牌号  查重
+     * @param user
+     * @return
+     */
+    @RequestMapping("findUserNameOrPhoneOrPlateNumber")
+    public Boolean findUserNameOrPhoneOrPlateNumber(User user){
+
+        try {
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            if(StringUtils.hasText(user.getUserName())){
+                queryWrapper.eq("user_name", user.getUserName());
+            }
+            if(StringUtils.hasText(user.getPhone())){
+                queryWrapper.eq("phone", user.getPhone());
+            }
+            if(StringUtils.hasText(user.getPlateNumber())){
+                queryWrapper.eq("plate_number", user.getPlateNumber());
+            }
+            User u = userService.getOne(queryWrapper);
+            return u == null ? true : false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 用户注册
+     * @param user
+     * @return
+     */
+    @RequestMapping("register")
+    public ResultModel register(User user){
+        try {
+            user.setCreateTime(LocalDateTime.now());
+            userService.save(user);
+            return new ResultModel().success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel().error("服务器异常");
+        }
+
+    }
+
 }
