@@ -35,15 +35,18 @@
                     html += "<td>"+d.plateNumber+"</td>";
                     html += "<td>"+d.carNumber+"</td>";
                     html += "<td>"+d.price+"</td>";
-                    if(d.orderStatus==0){
-                        html += "<td>待付款</td>";
-                    }
-                    if(d.orderStatus==1){
-                        html += "<td>订单完成</td>";
-                    }
                     html += "<td>"
                     html += "<div class='layui-btn-group'>"
-                    html += "<button type='button' class='layui-btn layui-btn-sm' onclick='update("+d.id+")'>修改</button>"
+                    if(d.orderStatus == 0 ){
+                        html += "<button type='button' class='layui-btn layui-btn-sm' onclick='updstatus("+d.id+")'>待付款</button>"
+                    } else {
+                        html += "<button type='button' class='layui-btn layui-btn-sm' onclick='look("+d.id+")'>订单完成</button>"
+                    }
+
+                    html += "</div>"
+                    html += "</td>"
+                    html += "<td>"
+                    html += "<div class='layui-btn-group'>"
                     html += "<button type='button' class='layui-btn layui-btn-sm' onclick='del("+d.id+")'>删除</button>"
                     html += "</div>"
                     html += "</td>"
@@ -77,17 +80,6 @@
         search();
     }
 
-	function update(id) {
-		layer.open({
-			  type: 2,
-			  title: '修改信息',
-			  shadeClose: true,
-			  shade: 0.8,
-			  area: ['380px', '90%'],
-			  content: '<%=request.getContextPath()%>/order/toUpdate/'+id
-			}); 
-	}
-
 	function del(id) {
 		var index = layer.load(1,{shade:0.5});
 		$.post(
@@ -107,6 +99,25 @@
         search();
     }
 
+    function updStatus(id) {
+        var index = layer.load(1,{shade:0.5});
+        $.post("<%=request.getContextPath()%>/order/update",
+            {"id":id,"orderStatus":1},
+            function (data) {
+                layer.close(index);
+                if(data.code != 200){
+                    layer.msg(data.msg,{icon:2});
+                    return;
+                }
+                if(data.code == 200){
+                    layer.msg(data.msg,{icon:1},function(){
+                        $("#tbd").empty();
+                        $("#pageNo").val(1);
+                        search();
+                    });
+                }
+            })
+    }
 </script>
 </head>
 <body>
@@ -143,5 +154,6 @@
   </table>
 </div>
 <div id="pageInfo" align="center">
+</div>
 </body>
 </html>

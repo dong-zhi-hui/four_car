@@ -44,8 +44,21 @@ public class OrderCarController {
         }
     }
 
+    @RequestMapping("del")
+    public ResultModel del(Integer id){
+        try {
+            return new ResultModel().success(orderCarService.removeById(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel().error(e.getMessage());
+        }
+    }
 
-
+    @RequestMapping("update")
+    public ResultModel update(OrderCar orderCar){
+        orderCarService.updateById(orderCar);
+        return new ResultModel().success();
+    }
 
 
 

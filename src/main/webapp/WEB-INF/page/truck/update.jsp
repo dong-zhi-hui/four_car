@@ -34,8 +34,8 @@
 <body>
 <form id="fm" >
          <input type="hidden" name="id" value="${truckSpace.id}"/>
-	车位编号:<input type="text" name="userName" value="${truckSpace.carNumber}"/><br />
-	车位价格:<input type="text" name="userPwd" value="${truckSpace.price}"/><br />
+	车位编号:<input type="text" name="carNumber" value="${truckSpace.carNumber}"/><br />
+	车位价格:<input type="text" name="price" value="${truckSpace.price}"/><br />
 	车位状态<input type="radio" name="carStatus" value="0" <c:if test="${truckSpace.carStatus == 0}">checked</c:if>>空置
 	<input type="radio" name="carStatus" value="1" <c:if test="${truckSpace.carStatus == 1}">checked</c:if>>已预约<br />
 	车位等级<input type="radio" name="carLevel" value="0" <c:if test="${truckSpace.carLevel == 0}">checked</c:if>>普通车位

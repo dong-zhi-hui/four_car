@@ -36,6 +36,12 @@
                     if(d.carStatus==1){
                         html += "<td>已预约</td>";
                     }
+                    if(d.carLevel==0){
+                        html += "<td>普通车位</td>";
+                    }
+                    if(d.carLevel==1){
+                        html += "<td>会员车位</td>";
+                    }
                     if (${user.level==3}){
                         html += "<td>"
                         html += "<div class='layui-btn-group'>"
@@ -104,9 +110,24 @@
         search();
     }
 
+    //增加车位
+    function add() {
+        layer.open({
+            type: 2,
+            title: '增加车位',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['380px', '90%'],
+            content: '<%=request.getContextPath()%>/truck/toAdd'
+        });
+    }
+
 </script>
 </head>
 <body>
+<c:if test="${user.level == 3}">
+<button type='button' class='layui-btn' onclick='add()'>添加</button>
+</c:if>
 <form id="fm" align="center">
 <input type="hidden" value="1" id="pageNo" name="pageNo"/>
 搜车位：<input type="text" name="carNumber" style="width: 230px; height: 30px" >
@@ -128,6 +149,7 @@
 		<th>车位编号</th>
 		<th>车位价格</th>
 		<th>车位状态</th>
+		<th>车位等级</th>
           <c:if test="${user.level==3}">
               <th>操作</th>
           </c:if>
@@ -137,6 +159,6 @@
   </table>
 </div>
 <div id="pageInfo" align="center">
-
+</div>
 </body>
 </html>

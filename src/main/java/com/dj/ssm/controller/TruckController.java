@@ -66,6 +66,33 @@ public class TruckController {
         }
     }
 
+    @RequestMapping("add")
+    public ResultModel add(TruckSpace truckSpace){
+        try {
+            truckService.save(truckSpace);
+            return new ResultModel().success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel().error(e.getMessage());
+        }
+
+    }
+
+    @RequestMapping("findCarNumber")
+    public Boolean findCarNumber(TruckSpace truckSpace){
+        try {
+            QueryWrapper<TruckSpace> queryWrapper = new QueryWrapper<>();
+            if(StringUtils.hasText(truckSpace.getCarNumber())){
+                queryWrapper.eq("car_number", truckSpace.getCarNumber());
+            }
+            TruckSpace t = truckService.getOne(queryWrapper);
+            return t == null ? true : false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
 
 

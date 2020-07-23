@@ -30,6 +30,10 @@ public class TruckPageController {
         return "truck/update";
     }
 
+    @RequestMapping("toAdd")
+    public String toAdd(){
+        return "truck/add";
+    }
 
 
 
