@@ -8,6 +8,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @TableName("user")
@@ -40,5 +41,13 @@ public class User {
 
     /** 等级 */
     private Integer level;
+
+    /** 验证码 */
+    private String code;
+
+    /** 有效时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date finiteTime;
 
 }

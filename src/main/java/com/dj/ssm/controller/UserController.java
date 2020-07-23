@@ -1,6 +1,7 @@
 package com.dj.ssm.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dj.ssm.config.ResultModel;
@@ -13,10 +14,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +41,7 @@ public class UserController {
                 return new ResultModel().success("账号或密码不能为空");
             }
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("user_name", user.getUserName());
+            queryWrapper.eq("user_name", user.getUserName()).or().eq("phone", user.getUserName());
             queryWrapper.eq("user_pwd", user.getUserPwd());
             User u = userService.getOne(queryWrapper);
             if(null == u){
@@ -149,6 +151,35 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResultModel().error("服务器异常");
+        }
+    }
+
+    @RequestMapping("getCode")
+    public ResultModel<Object> getCode(User user) {
+        try {
+            if (StringUtils.isEmpty(user.getPhone())) {
+                return new ResultModel<Object>().error("不为空");
+            }
+           QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("phone", user.getPhone());
+            User user2 = userService.getOne(queryWrapper);
+            if (user2 == null) {
+                return new ResultModel<Object>().error("不存在");
+            }
+            int code = (int) ((Math.random() * 9 + 1) * 100000);
+            user2.setCode(String.valueOf(code));
+            System.out.println(code);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            // 验证码有效时间30秒
+            calendar.add(Calendar.SECOND, 30);
+            user2.setFiniteTime(calendar.getTime());
+            userService.updateById(user2);
+            return new ResultModel<Object>().success(code);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            return new ResultModel<Object>().error("服务器异常");
         }
     }
 

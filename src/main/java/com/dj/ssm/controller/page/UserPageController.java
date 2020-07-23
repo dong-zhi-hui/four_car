@@ -33,5 +33,10 @@ public class UserPageController {
         return "user/login";
     }
 
+    @RequestMapping("toPhoneLogin")
+    public String toPhoneLogin(){
+        return "user/phoneLong";
+    }
+
 
 }
