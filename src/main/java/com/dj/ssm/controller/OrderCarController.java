@@ -54,13 +54,16 @@ public class OrderCarController {
         }
     }
 
-    @RequestMapping("update")
-    public ResultModel update(OrderCar orderCar){
-        orderCarService.updateById(orderCar);
-        return new ResultModel().success();
+    @RequestMapping("updatePay")
+    public ResultModel updatePay(OrderCar orderCar, String pay){
+        try {
+            orderCarService.updateById(orderCar);
+            return new ResultModel().success(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel().error(e.getMessage());
+        }
     }
-
-
 
 
 }

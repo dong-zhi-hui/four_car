@@ -7,4 +7,6 @@ import com.dj.ssm.pojo.OrderCar;
  * @author zhw
  */
 public interface OrderCarMapper extends BaseMapper<OrderCar> {
+
+
 }

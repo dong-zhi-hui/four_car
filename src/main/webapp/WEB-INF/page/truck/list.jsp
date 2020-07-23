@@ -30,16 +30,30 @@
                     html += "<td>"+d.id+"</td>";
                     html += "<td>"+d.carNumber+"</td>";
                     html += "<td>"+d.price+"</td>";
-                    if(d.carStatus==0){
-                        html += "<td>空置</td>";
+                    if (${user.level == 3}){
+                        if(d.carStatus == 0){
+                            html += "<td>空置</td>";
+                        }
+                        if(d.carStatus == 1){
+                            html += "<td>已预约</td>";
+                        }
                     }
-                    if(d.carStatus==1){
-                        html += "<td>已预约</td>";
+                    if (${user.level != 3 }){
+                        html += "<td>"
+                        html += "<div class='layui-btn-group'>"
+                        if(d.carStatus == 0 ){
+                            html += "<button type='button' class='layui-btn layui-btn-sm' onclick='updStatus("+d.id+",0)'>空置</button>";
+                        }
+                        if(d.carStatus == 1 ){
+                            html += "<button type='button' class='layui-btn layui-btn-sm' onclick='updStatus("+d.id+",1)'>已预约</button>";
+                         }
+                        html += "</div>"
+                        html += "</td>"
                     }
-                    if(d.carLevel==0){
+                    if(d.carLevel == 0){
                         html += "<td>普通车位</td>";
                     }
-                    if(d.carLevel==1){
+                    if(d.carLevel == 1){
                         html += "<td>会员车位</td>";
                     }
                     if (${user.level==3}){
@@ -80,6 +94,7 @@
         search();
     }
 
+    //修改信息
 	function update(id) {
 		layer.open({
 			  type: 2,
@@ -91,6 +106,7 @@
 			}); 
 	}
 
+	//删除
 	function del(id) {
 		var index = layer.load(1,{shade:0.5});
 		$.post(
@@ -105,12 +121,13 @@
 			}) 
 	}
 
+	//查询
     function find() {
         $("#pageNo").val(1);
         search();
     }
 
-    //增加车位
+    //增加
     function add() {
         layer.open({
             type: 2,
@@ -120,6 +137,31 @@
             area: ['380px', '90%'],
             content: '<%=request.getContextPath()%>/truck/toAdd'
         });
+    }
+
+    //修改状态
+    function updStatus(id,s) {
+	    if(s == 1 ){
+            layer.msg("已经预约,不可重复预约",{icon:2});
+            return;
+        }
+        var index = layer.load(1,{shade:0.5});
+        $.post("<%=request.getContextPath()%>/truck/update",
+            {"id":id,"carStatus":1},
+            function (data) {
+                layer.close(index);
+                if(data.code != 200){
+                    layer.msg(data.msg,{icon:2});
+                    return;
+                }
+                if(data.code == 200){
+                    layer.msg(data.msg,{icon:1},function(){
+                        $("#tbd").empty();
+                        $("#pageNo").val(1);
+                        search();
+                    });
+                }
+            })
     }
 
 </script>

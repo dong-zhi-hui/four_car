@@ -35,16 +35,26 @@
                     html += "<td>"+d.plateNumber+"</td>";
                     html += "<td>"+d.carNumber+"</td>";
                     html += "<td>"+d.price+"</td>";
-                    html += "<td>"
-                    html += "<div class='layui-btn-group'>"
-                    if(d.orderStatus == 0 ){
-                        html += "<button type='button' class='layui-btn layui-btn-sm' onclick='updstatus("+d.id+")'>待付款</button>"
-                    } else {
-                        html += "<button type='button' class='layui-btn layui-btn-sm' onclick='look("+d.id+")'>订单完成</button>"
+                    if(d.orderStatus == 0 && ${user.level != 3 }){
+                        html += "<td>"
+                        html += "<div class='layui-btn-group'>"
+                        html += "<button type='button' class='layui-btn layui-btn-sm' onclick='updStatus("+d.id+")'>待付款</button>"
+                        html += "</div>"
+                        html += "</td>"
+                    } else if(${user.level == 3 } && d.orderStatus == 0){
+                        html += "<td>待付款</td>";
                     }
+                     if(d.orderStatus == 1 ) {
+                         html += "<td>"
+                         html += "<div class='layui-btn-group'>"
+                    html += "<button type='button' class='layui-btn layui-btn-sm' onclick='look("+d.id+")'>订单完成</button>"
+                         html += "</div>"
+                         html += "</td>"
+                     }
+                     else if(${user.level == 3 } && d.orderStatus == 1) {
+                         html += "<td>订单完成</td>";
+                     }
 
-                    html += "</div>"
-                    html += "</td>"
                     html += "<td>"
                     html += "<div class='layui-btn-group'>"
                     html += "<button type='button' class='layui-btn layui-btn-sm' onclick='del("+d.id+")'>删除</button>"
@@ -100,23 +110,14 @@
     }
 
     function updStatus(id) {
-        var index = layer.load(1,{shade:0.5});
-        $.post("<%=request.getContextPath()%>/order/update",
-            {"id":id,"orderStatus":1},
-            function (data) {
-                layer.close(index);
-                if(data.code != 200){
-                    layer.msg(data.msg,{icon:2});
-                    return;
-                }
-                if(data.code == 200){
-                    layer.msg(data.msg,{icon:1},function(){
-                        $("#tbd").empty();
-                        $("#pageNo").val(1);
-                        search();
-                    });
-                }
-            })
+        layer.open({
+            type: 2,
+            title: '支付信息',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['480px', '80%'],
+            content: '<%=request.getContextPath()%>/order/toUpd/'+id
+        });
     }
 </script>
 </head>
@@ -127,7 +128,7 @@
 <input  type = "button" value = "搜索"  class="layui-btn" onclick="find()">
 </form>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-  <legend>车位列表</legend>
+  <legend>订单列表</legend>
 </fieldset>
 <div class="layui-form">
   <table class="layui-table">
