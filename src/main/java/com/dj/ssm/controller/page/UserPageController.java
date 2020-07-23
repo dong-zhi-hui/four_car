@@ -4,6 +4,8 @@ import com.dj.ssm.pojo.User;
 import com.dj.ssm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -36,6 +38,13 @@ public class UserPageController {
     @RequestMapping("toPhoneLogin")
     public String toPhoneLogin(){
         return "user/phoneLong";
+    }
+
+    @RequestMapping("toUpdateUserPwd/{id}")
+    public String toUpdateUserPwd(@PathVariable("id") Integer id, Model model){
+        User user = userService.getById(id);
+        model.addAttribute("userUpdate", user);
+        return "user/update";
     }
 
 

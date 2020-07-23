@@ -9,6 +9,8 @@ public class UserQuery implements Serializable {
 
     private String userName;
 
+    private String password;
+
     private Integer pageNo;
 
     private Integer pageNoSize = 2;

@@ -1,7 +1,6 @@
 package com.dj.ssm.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dj.ssm.config.ResultModel;
@@ -189,6 +188,12 @@ public class UserController {
         }
     }
 
+    /**
+     * 手机号登录
+     * @param user
+     * @param session
+     * @return
+     */
     @RequestMapping("phoneLogin")
     public ResultModel<Object> phoneLogin(User user, HttpSession session) {
         try {
@@ -216,6 +221,40 @@ public class UserController {
             return new ResultModel<Object>().error("服务器出错了");
         }
 
+    }
+
+    /**
+     * 判断旧密码是否正确
+     * @param userQuery
+     * @param user
+     * @return
+     */
+    @RequestMapping("findUserPwd")
+    public boolean findUserPwd(UserQuery userQuery, @SessionAttribute("user") User user){
+        try {
+            if(userQuery.getPassword().equals(user.getUserPwd())){
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 修改密码
+     * @param user
+     * @return
+     */
+    @RequestMapping("updateUser")
+    public ResultModel updateUser(User user){
+        try {
+            userService.updateById(user);
+            return new ResultModel().success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel().error("服务器异常");
+        }
     }
 
 }
