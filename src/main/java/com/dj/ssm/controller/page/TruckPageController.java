@@ -35,6 +35,15 @@ public class TruckPageController {
         return "truck/add";
     }
 
+    /**
+     * echarts
+     * @return
+     */
+    @RequestMapping("echarts")
+    public String echarts(){
+        return "truck/echarts";
+    }
+
 
 
 }

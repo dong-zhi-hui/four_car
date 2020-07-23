@@ -17,6 +17,7 @@ a:hover{text-decoration:none}
 
 	<h1><a href="<%=request.getContextPath()%>/user/toShow" target="right">用户展示</a></h1>
 	<h1><a href="<%=request.getContextPath()%>/truck/toList" target="right">车位管理</a></h1>
+	<h1><a href="<%=request.getContextPath()%>/truck/echarts" target="right">车位echarts</a></h1>
 	<h1><a href="<%=request.getContextPath()%>/message/toShow" target="right">留言板</a></h1>
 	<h1><a href="<%=request.getContextPath()%>/order/toList" target="right">订单管理</a></h1>
 </body>
