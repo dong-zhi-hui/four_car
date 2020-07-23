@@ -8,7 +8,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 /**
- * @author zhw
+ * @author zhw 车位管理
  */
 @Data
 @TableName("truck_space")
