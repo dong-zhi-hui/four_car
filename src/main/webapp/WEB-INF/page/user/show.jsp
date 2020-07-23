@@ -45,25 +45,40 @@
                         html += "<td>"+u.userName+"</td>";
                         html += "<td>"+u.phone+"</td>";
                         html += "<td>"+u.plateNumber+"</td>";
-                        html += "<td>"+u.userStatus+"</td>";
+                        if(u.userStatus == 0){
+                            html += "<td>有效</td>";
+                        }else{
+                            html += "<td>无效</td>";
+                        }
                         html += "<td>"+u.createTime+"</td>";
-                        html += "<td>"+u.level+"</td>";
-                        if(level == 3 && u.userStatus == 0 ){
-                                html += "<td> <input  type = \"button\" value = \"有效\"  class=\"layui-btn\" onclick=\"upd("+u.id+",1)\"><td/>"
-                        }else if(level == 3 && u.userStatus == 1){
-                            html += "<td> <input  type = \"button\" value = \"无效\"  class=\"layui-btn\" onclick=\"upd("+u.id+",0)\"><td/>"
+                        if(u.level == 0){
+                            html += "<td>普通用户</td>";
+                        }else if(u.level == 1){
+                            html += "<td>普通会员</td>";
+                        }else if(u.level == 2){
+                            html += "<td>高级会员</td>";
+                        }else{
+                            html += "<td>管理员</td>";
+                        }
 
+                        if(level == 3  ){
+                                html += "<td> <input  type = \"button\" value = \"修改信息\"  class=\"layui-btn\" onclick=\"upd("+u.id+",1)\"><td/>"
+                        } else if(level != 3){
+                            html += "<td> <input  type = \"button\" value = \"修改密码\"  class=\"layui-btn\" onclick=\"toUpdateUserPwd("+u.id+")\"><td/>"
                         }
                         html += "</tr>";
                     }
                     $("#tbd").html(html);
-                    pageInfo += "<input type = 'button' value='上一页' onclick='page(0, "+data.data.pages+")'/>";
-                    pageInfo += "<input type = 'button' value='下一页' onclick='page(1, "+data.data.pages+")'/>";
+                    pages = data.data.pages;
+                    pageInfo += "<input type = 'button' class=\"layui-btn\" value='下一页' onclick='page(0, "+data.data.pages+")'/>";
+                    pageInfo +="第"+$("#pageNo").val()+"/"+pages+"页";
+                    pageInfo += "<input type = 'button' class=\"layui-btn\" value='下一页' onclick='page(1, "+data.data.pages+")'/>";
                     $("#pageInfo").html(pageInfo);
                 })
         }
         //分页
         function page(temp,pages){
+
             var page = $("#pageNo").val();
             if(temp == 0) {
                 if(parseInt(page) - 1 < 1) {
@@ -99,6 +114,16 @@
                 })
         }
 
+        function toUpdateUserPwd(id) {
+            layer.open({
+                type: 2,
+                title: '修改密码',
+                shade: 0.8,
+                area: ['400px', '70%'],
+                content: '<%=request.getContextPath()%>/user/toUpdateUserPwd/'+id
+            });
+        }
+
     </script>    
 </head>
 <body>
@@ -129,14 +154,16 @@
         <td>状态</td>
         <td>创建时间</td>
         <td>等级</td>
-        <c:if test="${user.level == 3}">
+
             <td>操作</td>
-        </c:if>
+
     </tr>
     <tbody id = "tbd">
     </tbody>
 </table>
 </div>
+
+
 <div id="pageInfo" align="center">
 </div>
 </body>
