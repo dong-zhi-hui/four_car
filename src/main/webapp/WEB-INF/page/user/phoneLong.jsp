@@ -36,11 +36,18 @@
             $.post("<%=request.getContextPath()%>/user/getCode",
                 $("#fm").serialize(),
                 function(data){
-                    layer.close(index);
-                    layer.msg(data.msg,{icont:6},function(){
-                        if (data.code != 200) {
-                            return;
-                        }
+                    if(data.code != 200){
+                        layer.msg(data.msg, {icon: 5});
+                        layer.close(index);
+                        return;
+                    }
+                    layer.msg("验证码:"+data.data, {
+                        icon: 6,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        $("#code").val(data.data);
+                        layer.close(index);
+
                     });
                 }
             )
@@ -74,7 +81,7 @@
 
 <form id="fm">
     手机号：    <input type="text" name="phone" /><br/>
-    验证码：<input type="text" name="code"  /><br/>
+    验证码：<input type="text" name="code" id = "code" /><br/>
     <input type="button" value="获取验证码" onclick="getCode(this)" /><br/>
     <input type="button" value="登录" onclick="login()" />
 

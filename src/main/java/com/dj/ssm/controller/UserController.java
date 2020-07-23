@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dj.ssm.config.ResultModel;
 import com.dj.ssm.config.SendMailUtils;
+import com.dj.ssm.config.SystemConstant;
 import com.dj.ssm.pojo.User;
 import com.dj.ssm.pojo.UserQuery;
 import com.dj.ssm.service.UserService;
@@ -48,7 +49,7 @@ public class UserController {
                 return new ResultModel().error("账号或密码错误");
             }
             session.setAttribute("user", u);
-            if(u.getUserStatus() == 0){
+            if(u.getUserStatus() == SystemConstant.USERSTAYUS){
                 return new ResultModel().error("请邮箱验证");
             }
             return new ResultModel().success();
@@ -77,7 +78,7 @@ public class UserController {
                 queryWrapper.eq("user_name", userQuery.getUserName());
             }
             //条件限定
-            if(user.getLevel() != 3){
+            if(user.getLevel() != SystemConstant.USERLEVEL){
                 queryWrapper.eq("id", user.getId());
             }
             IPage<User> pageInfo = userService.page(page,queryWrapper);
@@ -154,6 +155,11 @@ public class UserController {
         }
     }
 
+    /**
+     * 获取验证码
+     * @param user
+     * @return
+     */
     @RequestMapping("getCode")
     public ResultModel<Object> getCode(User user) {
         try {
@@ -172,7 +178,7 @@ public class UserController {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
             // 验证码有效时间30秒
-            calendar.add(Calendar.SECOND, 30);
+            calendar.add(Calendar.SECOND, SystemConstant.FINITETIME);
             user2.setFiniteTime(calendar.getTime());
             userService.updateById(user2);
             return new ResultModel<Object>().success(code);
@@ -181,6 +187,35 @@ public class UserController {
             e.printStackTrace();
             return new ResultModel<Object>().error("服务器异常");
         }
+    }
+
+    @RequestMapping("phoneLogin")
+    public ResultModel<Object> phoneLogin(User user, HttpSession session) {
+        try {
+            if (StringUtils.isEmpty(user.getPhone()) && StringUtils.isEmpty(user.getCode())) {
+                return new ResultModel<Object>().error("输入不得为空！");
+            }
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("phone", user.getPhone());
+            queryWrapper.eq("code", user.getCode());
+            User user2 = userService.getOne(queryWrapper);
+            if (null == user2) {
+                return new ResultModel<Object>().error("输入信息有误！");
+            }
+            if (user2.getUserStatus() == SystemConstant.USERSTAYUS) {
+                return new ResultModel<Object>().error("用户无效请注册");
+            }
+            if (new Date().getTime() > user2.getFiniteTime().getTime()) {
+                return new ResultModel<Object>().error("验证码超时,请从新获取验证码");
+            }
+            session.setAttribute("user", user2);
+            return new ResultModel<Object>().success();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return new ResultModel<Object>().error("服务器出错了");
+        }
+
     }
 
 }
