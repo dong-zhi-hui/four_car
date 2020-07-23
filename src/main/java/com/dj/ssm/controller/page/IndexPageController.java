@@ -30,5 +30,11 @@ public class IndexPageController {
 		return "index/top";
 	}
 
+	@RequestMapping("toEsc")
+	public String toEsc(HttpSession session) {
+		session.invalidate();
+		return "user/login";
+	}
+
 
 }

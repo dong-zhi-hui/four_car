@@ -14,6 +14,7 @@ a:hover{text-decoration:none}
 	<center>
 	<h1>欢迎${user.userName}登录</h1>
 	</center>
+	<a href= "<%=request.getContextPath()%>/index/toEsc">退出登录</a>
 	<div id="datetime" align="right" style="color:red">
 	<script>
  		setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);

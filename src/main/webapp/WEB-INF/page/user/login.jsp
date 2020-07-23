@@ -12,6 +12,11 @@
     <script type="text/javascript" src = "<%=request.getContextPath()%>/static/js/jquery-1.12.4.js"></script>
     <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layer-v3.1.1/layer/layer.js"></script>
     <script type="text/javascript">
+        //判断当前窗口路径与加载路径是否一致。
+        if(window.top.document.URL != document.URL){
+            //将窗口路径与加载路径同步
+            window.top.location = document.URL;
+        }
         function login() {
             var index = layer.load(1,{shade:0.5});
             $.post("<%=request.getContextPath()%>/user/login",
@@ -34,7 +39,7 @@
 <form id = "fm" >
     账号<input type="text" name="userName"/><br/>
     密码<input type="text" name="userPwd"/><br/>
-    <button type="button" onclick="login()">"登录"</button>
+    <button type="button" onclick="login()">登录</button>
     <a href="<%=request.getContextPath()%>/user/toRegister">注册</a>
 </form>
 </body>

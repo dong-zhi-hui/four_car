@@ -15,6 +15,7 @@
     <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layer-v3.1.1/layer/layer.js"></script>
     <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layui-v2.5.6/layui/layui.js"></script>
     <script type="text/javascript">
+        var level = ${user.level}
         
         $(function () {
             show();
@@ -47,6 +48,12 @@
                         html += "<td>"+u.userStatus+"</td>";
                         html += "<td>"+u.createTime+"</td>";
                         html += "<td>"+u.level+"</td>";
+                        if(level == 3 && u.userStatus == 0 ){
+                                html += "<td> <input  type = \"button\" value = \"有效\"  class=\"layui-btn\" onclick=\"upd("+u.id+",1)\"><td/>"
+                        }else if(level == 3 && u.userStatus == 1){
+                            html += "<td> <input  type = \"button\" value = \"无效\"  class=\"layui-btn\" onclick=\"upd("+u.id+",0)\"><td/>"
+
+                        }
                         html += "</tr>";
                     }
                     $("#tbd").html(html);
@@ -73,6 +80,23 @@
                 $("#pageNo").val(parseInt(page) + 1);
             }
             show();
+        }
+        
+        function upd(id,status) {
+            var index = layer.load(1,{shade:0.5});
+            $.post("<%=request.getContextPath()%>/user/updateUserStatus",
+                {"id":id,
+                "userStatus":status},
+                function (data) {
+                    layer.close(index);
+                    if(data.code != 200){
+                        layer.msg(data.msg,{icon:2});
+                        return;
+                    }
+                    layer.msg(data.msg,{icon:1},function(){
+                        show();
+                    });
+                })
         }
 
     </script>    
@@ -105,6 +129,9 @@
         <td>状态</td>
         <td>创建时间</td>
         <td>等级</td>
+        <c:if test="${user.level == 3}">
+            <td>操作</td>
+        </c:if>
     </tr>
     <tbody id = "tbd">
     </tbody>

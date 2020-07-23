@@ -46,6 +46,9 @@ public class UserController {
                 return new ResultModel().error("账号或密码错误");
             }
             session.setAttribute("user", u);
+            if(u.getUserStatus() == 0){
+                return new ResultModel().error("请邮箱验证");
+            }
             return new ResultModel().success();
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,7 +134,22 @@ public class UserController {
             e.printStackTrace();
             return new ResultModel().error("服务器异常");
         }
+    }
 
+    /**
+     * 修改状态
+     * @param user
+     * @return
+     */
+    @RequestMapping("updateUserStatus")
+    public ResultModel updateUserStatus(User user){
+        try {
+            userService.updateById(user);
+            return new ResultModel().success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel().error("服务器异常");
+        }
     }
 
 }
