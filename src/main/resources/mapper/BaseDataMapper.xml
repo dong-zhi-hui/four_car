@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dj.ssm.mapper.BaseDataMapper">
+
+    <!-- 代码块 -->
+    <sql id="BASEDATA">
+			id
+			,base_name
+			,parent_id
+			,is_del
+	</sql>
+
+    <select id="findByParentId" resultType="com.dj.ssm.pojo.BaseData">
+        select <include refid="BASEDATA"/> FROM
+        dj_base_data WHERE
+        parent_id = #{parentId}
+    </select>
+
+</mapper>
