@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dj.ssm.config.ResultModel;
+import com.dj.ssm.config.SendMailUtils;
 import com.dj.ssm.pojo.User;
 import com.dj.ssm.pojo.UserQuery;
 import com.dj.ssm.service.UserService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -117,10 +119,13 @@ public class UserController {
      * @return
      */
     @RequestMapping("register")
-    public ResultModel register(User user){
+    public ResultModel register(User user, HttpServletRequest request){
         try {
             user.setCreateTime(LocalDateTime.now());
-            userService.save(user);
+            userService.saveUser(user);
+            SendMailUtils.sendEmail("1599814565@qq.com", "用户激活", "<a href='http://127.0.0.1:8080/" +
+                    "user/updateStatus?id=" + user.getId() + "&userStatus=1'>点此激活</a>");
+            SendMailUtils.sendEmail("1599814565@qq.com", "注册成功", "<h1>恭喜您！注册成功！</h1>");
             return new ResultModel().success();
         } catch (Exception e) {
             e.printStackTrace();

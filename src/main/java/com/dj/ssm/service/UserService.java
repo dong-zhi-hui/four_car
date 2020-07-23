@@ -6,4 +6,7 @@ import com.dj.ssm.mapper.UserMapper;
 import com.dj.ssm.pojo.User;
 
 public interface UserService extends IService<User> {
+
+    boolean saveUser(User user);
+
 }
