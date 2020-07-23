@@ -93,6 +93,27 @@ public class TruckController {
         return false;
     }
 
+    @RequestMapping("findTruckByCount")
+    public ResultModel findTruckByCount() {
+        Map<String,Object> map = new HashMap<String, Object>();
+        try {
+            //空置
+            Integer count1 = truckService.findTruckByCount(0);
+            //已预约
+            Integer count2 = truckService.findTruckByCount(1);
+            //总车位
+            Integer countAll = count1 + count2;
+            map.put("countAll", countAll);
+            map.put("count1", count1);
+            map.put("count2", count2);
+            return new ResultModel().success(map);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return new ResultModel().error("服务器异常,请稍后再试");
+        }
+    }
+
 
 
 

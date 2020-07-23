@@ -7,4 +7,5 @@ import com.dj.ssm.pojo.TruckSpace;
  * @author zhw
  */
 public interface TruckService extends IService<TruckSpace> {
+    Integer findTruckByCount(int i) throws Exception;
 }
