@@ -109,26 +109,6 @@
         search();
     }
 
-    <%--function updStatus(id) {--%>
-    <%--    var index = layer.load(1,{shade:0.5});--%>
-    <%--    $.post("<%=request.getContextPath()%>/order/updatePay",--%>
-    <%--        {"id":id,"orderStatus":1},--%>
-    <%--        function (data) {--%>
-    <%--            layer.close(index);--%>
-    <%--            if(data.code != 200){--%>
-    <%--                layer.msg(data.msg,{icon:2});--%>
-    <%--                return;--%>
-    <%--            }--%>
-    <%--            if(data.code == 200){--%>
-    <%--                layer.msg(data.msg,{icon:1},function(){--%>
-    <%--                    $("#tbd").empty();--%>
-    <%--                    $("#pageNo").val(1);--%>
-    <%--                    search();--%>
-    <%--                });--%>
-    <%--            }--%>
-    <%--        })--%>
-    <%--}--%>
-
     function updStatus(id) {
         layer.open({
             type: 2,
