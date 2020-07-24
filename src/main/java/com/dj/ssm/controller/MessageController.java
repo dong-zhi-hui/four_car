@@ -31,16 +31,17 @@ public class MessageController {
 
     /**
      * 留言板展示
+     *
      * @param truckSpaceQuery
      * @return
      */
     @RequestMapping("show")
-    public ResultModel show(TruckSpaceQuery truckSpaceQuery){
+    public ResultModel show(TruckSpaceQuery truckSpaceQuery) {
         try {
             Map<String, Object> map = new HashMap<>();
             Page<Message> page = new Page<>(truckSpaceQuery.getPageNo(), truckSpaceQuery.getPageSize());
             QueryWrapper<Message> queryWrapper = new QueryWrapper<>();
-            if(StringUtils.hasText(truckSpaceQuery.getMessageContents())){
+            if (StringUtils.hasText(truckSpaceQuery.getMessageContents())) {
                 queryWrapper.like("message_contents", truckSpaceQuery.getMessageContents());
             }
             IPage<Message> messageIPage = messageService.page(page, queryWrapper);
@@ -55,6 +56,7 @@ public class MessageController {
 
     /**
      * 新增留言
+     *
      * @param message
      * @return
      */
@@ -77,11 +79,12 @@ public class MessageController {
 
     /**
      * 删除
+     *
      * @param id
      * @return
      */
     @RequestMapping("del")
-    public ResultModel del(Integer id){
+    public ResultModel del(Integer id) {
         try {
             messageService.removeById(id);
             return new ResultModel().success();
@@ -93,12 +96,13 @@ public class MessageController {
 
     /**
      * 回复
+     *
      * @param message
      * @param user
      * @return
      */
     @RequestMapping("update")
-    public ResultModel update(Message message, @SessionAttribute("user") User user){
+    public ResultModel update(Message message, @SessionAttribute("user") User user) {
         try {
             if (StringUtils.isEmpty(message.getResponse())) {
                 return new ResultModel().error("回复内容不能为空");
@@ -115,11 +119,12 @@ public class MessageController {
 
     /**
      * 查看我的留言记录
+     *
      * @param user
      * @return
      */
     @RequestMapping("findMessageList")
-    public ResultModel findMessageList(@SessionAttribute("user") User user){
+    public ResultModel findMessageList(@SessionAttribute("user") User user) {
         try {
             QueryWrapper<Message> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_name", user.getUserName());

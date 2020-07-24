@@ -26,4 +26,14 @@ public class Locus {
 
     private Integer orderId;
 
+    public String getOrderDate() {
+        String time = String.valueOf(orderDate);
+        String[] splite = time.split("T");
+        String realTime =splite[0] + " " + splite[1];
+        return realTime;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
 }

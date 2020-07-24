@@ -40,16 +40,17 @@ public class TruckController {
 
     /**
      * 车位管理展示
+     *
      * @param truckSpaceQuery
      * @return
      */
     @RequestMapping("show")
-    public ResultModel show(TruckSpaceQuery truckSpaceQuery){
+    public ResultModel show(TruckSpaceQuery truckSpaceQuery) {
         try {
             Map<String, Object> map = new HashMap<>();
             Page<TruckSpace> page = new Page<>(truckSpaceQuery.getPageNo(), truckSpaceQuery.getPageSize());
             QueryWrapper<TruckSpace> queryWrapper = new QueryWrapper<>();
-            if(StringUtils.hasText(truckSpaceQuery.getCarNumber())){
+            if (StringUtils.hasText(truckSpaceQuery.getCarNumber())) {
                 queryWrapper.eq("car_number", truckSpaceQuery.getCarNumber());
             }
             IPage<TruckSpace> truckIPage = truckService.page(page, queryWrapper);
@@ -63,17 +64,17 @@ public class TruckController {
     }
 
     @RequestMapping("update")
-    public ResultModel update(TruckSpace truckSpace, @SessionAttribute("user")User user){
+    public ResultModel update(TruckSpace truckSpace, @SessionAttribute("user") User user) {
         try {
             TruckSpace truckServiceById = truckService.getById(truckSpace.getId());
-            if(user.getLevel().equals(SystemConstant.USER_LEVEL) && truckServiceById.getCarLevel().equals(SystemConstant.VIP_CAR)){
+            if (user.getLevel().equals(SystemConstant.USER_LEVEL) && truckServiceById.getCarLevel().equals(SystemConstant.VIP_CAR)) {
                 return new ResultModel().error("不能停会员车位");
             }
             QueryWrapper<OrderCar> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_name", user.getUserName());
             List<OrderCar> list = orderCarService.list(queryWrapper);
             for (OrderCar one : list) {
-                if(one != null && one.getOrderStatus() == 0){
+                if (one != null && one.getOrderStatus() == 0) {
                     return new ResultModel().error("您已经停过车");
                 }
             }
@@ -99,11 +100,12 @@ public class TruckController {
 
     /**
      * 车位删除
+     *
      * @param id
      * @return
      */
     @RequestMapping("del")
-    public ResultModel del(Integer id){
+    public ResultModel del(Integer id) {
         try {
             return new ResultModel().success(truckService.removeById(id));
         } catch (Exception e) {
@@ -114,11 +116,12 @@ public class TruckController {
 
     /**
      * 增加车位
+     *
      * @param truckSpace
      * @return
      */
     @RequestMapping("add")
-    public ResultModel add(TruckSpace truckSpace){
+    public ResultModel add(TruckSpace truckSpace) {
         try {
             truckService.save(truckSpace);
             return new ResultModel().success();
@@ -131,14 +134,15 @@ public class TruckController {
 
     /**
      * 去重车位编号
+     *
      * @param truckSpace
      * @return
      */
     @RequestMapping("findCarNumber")
-    public Boolean findCarNumber(TruckSpace truckSpace){
+    public Boolean findCarNumber(TruckSpace truckSpace) {
         try {
             QueryWrapper<TruckSpace> queryWrapper = new QueryWrapper<>();
-            if(StringUtils.hasText(truckSpace.getCarNumber())){
+            if (StringUtils.hasText(truckSpace.getCarNumber())) {
                 queryWrapper.eq("car_number", truckSpace.getCarNumber());
             }
             TruckSpace t = truckService.getOne(queryWrapper);
@@ -151,11 +155,12 @@ public class TruckController {
 
     /**
      * echars展示
+     *
      * @return
      */
     @RequestMapping("findTruckByCount")
     public ResultModel findTruckByCount() {
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         try {
             //空置
             Integer count1 = truckService.findTruckByCount(SystemConstant.PARKING_STATE_0);
@@ -173,10 +178,6 @@ public class TruckController {
             return new ResultModel().error("服务器异常,请稍后再试");
         }
     }
-
-
-
-
 
 
 }

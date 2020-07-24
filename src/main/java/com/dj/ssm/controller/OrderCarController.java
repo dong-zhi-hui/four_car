@@ -38,20 +38,21 @@ public class OrderCarController {
 
     /**
      * 订单展示
+     *
      * @param orderCarQuery
      * @param user
      * @return
      */
     @RequestMapping("show")
-    public ResultModel show(OrderCarQuery orderCarQuery, @SessionAttribute("user") User user){
+    public ResultModel show(OrderCarQuery orderCarQuery, @SessionAttribute("user") User user) {
         try {
             Map<String, Object> map = new HashMap<>();
             Page<OrderCar> page = new Page<>(orderCarQuery.getPageNo(), orderCarQuery.getPageSize());
             QueryWrapper<OrderCar> queryWrapper = new QueryWrapper<>();
-            if(StringUtils.hasText(orderCarQuery.getUserName())){
+            if (StringUtils.hasText(orderCarQuery.getUserName())) {
                 queryWrapper.eq("user_name", orderCarQuery.getUserName());
             }
-            if(user.getLevel() != SystemConstant.USERLEVEL){
+            if (user.getLevel() != SystemConstant.USERLEVEL) {
                 queryWrapper.eq("user_name", user.getUserName());
             }
             IPage<OrderCar> orderIPage = orderCarService.page(page, queryWrapper);
@@ -66,11 +67,12 @@ public class OrderCarController {
 
     /**
      * 订单删除
+     *
      * @param id
      * @return
      */
     @RequestMapping("del")
-    public ResultModel del(Integer id){
+    public ResultModel del(Integer id) {
         try {
             return new ResultModel().success(orderCarService.removeById(id));
         } catch (Exception e) {
@@ -80,11 +82,11 @@ public class OrderCarController {
     }
 
     @RequestMapping("updatePay")
-    public ResultModel updatePay(OrderCar orderCar, String pay, @SessionAttribute ("user") User user){
+    public ResultModel updatePay(OrderCar orderCar, String pay, @SessionAttribute("user") User user) {
         try {
             orderCarService.updateById(orderCar);
             OrderCar orderCar1 = orderCarService.getById(orderCar.getId());
-            if(orderCar1 != null && orderCar1.getOrderStatus() == 1){
+            if (orderCar1 != null && orderCar1.getOrderStatus() == 1) {
                 TruckSpace truckSpace = new TruckSpace();
                 truckSpace.setCarStatus(0);
                 UpdateWrapper<TruckSpace> updateWrapper = new UpdateWrapper<>();
@@ -92,7 +94,7 @@ public class OrderCarController {
                 updateWrapper.set("car_status", truckSpace.getCarStatus());
                 truckService.update(updateWrapper);
             }
-            if(orderCar.getOrderStatus() == SystemConstant.YES_PAY){
+            if (orderCar.getOrderStatus() == SystemConstant.YES_PAY) {
                 Locus locus = new Locus();
                 locus.setAction(pay);
                 locus.setOrderDate(LocalDateTime.now());

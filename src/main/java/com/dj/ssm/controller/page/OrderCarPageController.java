@@ -1,5 +1,6 @@
 package com.dj.ssm.controller.page;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dj.ssm.config.SystemConstant;
 import com.dj.ssm.pojo.BaseData;
 import com.dj.ssm.pojo.Locus;
@@ -32,7 +33,7 @@ public class OrderCarPageController {
     private LocusService locusService;
 
     @RequestMapping("toList")
-    public String toList(){
+    public String toList() {
         return "order/list";
     }
 
@@ -47,17 +48,19 @@ public class OrderCarPageController {
 
     /**
      * 轨迹支付信息展示
+     *
      * @param model
      * @param id
      * @return
      */
     @RequestMapping("toPayShow/{id}")
-    public String toPayShow(Model model, @PathVariable Integer id){
-        Locus locus = locusService.getById(id);
+    public String toPayShow(Model model, @PathVariable Integer id) {
+        QueryWrapper<Locus> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("order_id", id);
+        Locus locus = locusService.getOne(queryWrapper);
         model.addAttribute("locus", locus);
         return "order/pay_show";
     }
-
 
 
 }

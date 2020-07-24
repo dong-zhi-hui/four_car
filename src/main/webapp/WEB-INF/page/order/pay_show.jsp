@@ -11,17 +11,14 @@
 <head>
     <title>Title</title>
     <script type="text/javascript" src="<%=request.getContextPath()%>/static/js/jquery-1.12.4.js">
-
-
-
     </script>
 </head>
 <body>
 
 
 
-${locus.orderDate}
-${locus.userName}
-${locus.action}支付成功
+支付时间：${locus.orderDate}<br>
+用户名：${locus.userName}<br>
+支付方式：<span style="color: red">${locus.action}支付成功</span>
 </body>
 </html>
