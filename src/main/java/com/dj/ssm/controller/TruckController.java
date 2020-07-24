@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -65,10 +66,13 @@ public class TruckController {
             }
             QueryWrapper<OrderCar> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_name", user.getUserName());
-            OrderCar one = orderCarService.getOne(queryWrapper);
-            if(one != null && one.getOrderStatus() == 0){
-                return new ResultModel().error("您已经停过车");
+            List<OrderCar> list = orderCarService.list(queryWrapper);
+            for (OrderCar one : list) {
+                if(one != null && one.getOrderStatus() == 0){
+                    return new ResultModel().error("您已经停过车");
+                }
             }
+
             truckService.updateById(truckSpace);
             OrderCar orderCar = new OrderCar();
             String odd = "DJ" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
