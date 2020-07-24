@@ -62,7 +62,7 @@
                         }
 
                         if(level == 3  ){
-                                html += "<td> <input  type = \"button\" value = \"修改信息\"  class=\"layui-btn\" onclick=\"upd("+u.id+",1)\"><td/>"
+                                html += "<td> <input  type = \"button\" value = \"修改信息\"  class=\"layui-btn\" onclick=\"upd("+u.id+")\"><td/>"
                         } else if(level != 3){
                             html += "<td> <input  type = \"button\" value = \"修改密码\"  class=\"layui-btn\" onclick=\"toUpdateUserPwd("+u.id+")\"><td/>"
                         }
@@ -98,20 +98,13 @@
         }
         
         function upd(id,status) {
-            var index = layer.load(1,{shade:0.5});
-            $.post("<%=request.getContextPath()%>/user/updateUserStatus",
-                {"id":id,
-                "userStatus":status},
-                function (data) {
-                    layer.close(index);
-                    if(data.code != 200){
-                        layer.msg(data.msg,{icon:2});
-                        return;
-                    }
-                    layer.msg(data.msg,{icon:1},function(){
-                        show();
-                    });
-                })
+            layer.open({
+                type: 2,
+                title: '修改密码',
+                shade: 0.8,
+                area: ['400px', '70%'],
+                content: '<%=request.getContextPath()%>/user/toUpdateUser/'+id
+            });
         }
 
         function toUpdateUserPwd(id) {
@@ -154,15 +147,14 @@
         <td>状态</td>
         <td>创建时间</td>
         <td>等级</td>
-
-            <td>操作</td>
-
+        <td>操作</td>
     </tr>
+        </thead>
     <tbody id = "tbd">
     </tbody>
+    </thead>
 </table>
 </div>
-
 
 <div id="pageInfo" align="center">
 </div>

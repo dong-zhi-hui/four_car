@@ -94,7 +94,7 @@
 </head>
 <body>
 <form id = "fm" align="center">
-    <input type="hidden" value="${userUpdate.id}" name="id">
+    <input type="hidden" value="${updateUserPwd.id}" name="id">
     旧密码<input type="text" name="password" id = "password" style="width: 230px; height: 30px" /><br/>
     新密码<input type="text" name="userPwd" id = "userPwd" style="width: 230px; height: 30px" /><br/>
     <input  type = "submit" value = "确认"  class="layui-btn" ><br/>
