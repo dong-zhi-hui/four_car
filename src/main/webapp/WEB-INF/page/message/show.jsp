@@ -9,7 +9,7 @@
     <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layer-v3.1.1/layer/layer.js"></script>
     <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layui-v2.5.6/layui/layui.js"></script>
     <script type="text/javascript">
-
+        var aa = "";
         $(function() {
             search();
         })
@@ -40,9 +40,22 @@
                         html+="<td>"+m.messageContents+"</td>";
                         html+="<td>"+m.createTime+"</td>";
                         html+="<td>"+m.userName+"</td>";
-                        html+="<td>"+m.response+"</td>";
-                        html+="<td>"+m.responseTime+"</td>";
-                        html+="<td>"+m.responseName+"</td>";
+                        if(m.response == null){
+                            html+="<td>"+aa+"</td>";
+                        }else{
+                            html+="<td>"+m.response+"</td>";
+                        }
+                        if(m.responseTime == null){
+                            html+="<td>"+aa+"</td>";
+                        }else {
+                            html+="<td>"+m.responseTime+"</td>";
+                        }
+                        if(m.responseName == null){
+                            html+="<td>"+aa+"</td>";
+                        }else {
+                            html+="<td>"+m.responseName+"</td>";
+                        }
+
                         if ('${user.level}' == 3) {
                             html+="<td>";
                             html += "<div class='layui-btn-group'>"
@@ -150,7 +163,7 @@
     <!-- 分页按钮 -->
     <input type="hidden" value="1" id="pageNo" name="pageNo"/>
     <c:if test="${user.level != 3}">
-        <input type = "button" value="新增" class="layui-btn" onclick="add()"/>
+        <input type = "button" value="我要留言" class="layui-btn" onclick="add()"/>
         <input type = "button" value="查看我的留言记录" class="layui-btn" onclick="find()"/><br/>
         留言:<input type="text" name="messageContents" style="width: 230px; height: 30px"/>
         <input type = "button" value="搜索" class="layui-btn" onclick="search()"/>
