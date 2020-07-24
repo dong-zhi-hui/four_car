@@ -55,7 +55,7 @@ public class OrderCarController {
     }
 
     @RequestMapping("updatePay")
-    public ResultModel updatePay(OrderCar orderCar, String pay){
+    public ResultModel updatePay(OrderCar orderCar){
         try {
             orderCarService.updateById(orderCar);
             return new ResultModel().success(true);

@@ -45,7 +45,7 @@
                         html += "<td>"+u.userName+"</td>";
                         html += "<td>"+u.phone+"</td>";
                         html += "<td>"+u.plateNumber+"</td>";
-                        if(u.userStatus == 0){
+                        if(u.userStatus == 1){
                             html += "<td>有效</td>";
                         }else{
                             html += "<td>无效</td>";
@@ -60,12 +60,15 @@
                         }else{
                             html += "<td>管理员</td>";
                         }
-
+                        html += "<td>"
+                        html += "<div class='layui-btn-group'>"
                         if(level == 3  ){
-                                html += "<td> <input  type = \"button\" value = \"修改信息\"  class=\"layui-btn\" onclick=\"upd("+u.id+")\"><td/>"
+                                html += "<button  type = \"button\" class=\"layui-btn\" onclick=\"upd("+u.id+")\">修改信息</button>"
                         } else if(level != 3){
-                            html += "<td> <input  type = \"button\" value = \"修改密码\"  class=\"layui-btn\" onclick=\"toUpdateUserPwd("+u.id+")\"><td/>"
+                            html += "<button  type = \"button\" class=\"layui-btn\" onclick=\"toUpdateUserPwd("+u.id+")\">修改密码</button>"
                         }
+                        html += "</div>"
+                        html += "</td>"
                         html += "</tr>";
                     }
                     $("#tbd").html(html);
