@@ -43,8 +43,9 @@
                 <option value="${p.baseName}">${p.baseName}</option>
             </c:forEach>
         </select>
+        <br/>
         <input type="hidden" name="orderStatus" value="1">
-        支付金额<input type="text" name="price">
+        支付金额${orderCar.price}
         <br/>
         <input type="button" onclick="update()" value="确认支付">
 </form>

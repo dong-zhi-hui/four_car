@@ -39,7 +39,7 @@ public class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
-    /** 等级 */
+    /** 等级 0:普通用户 1:普通会员 2:高级会员 3:管理员 */
     private Integer level;
 
     /** 验证码 */

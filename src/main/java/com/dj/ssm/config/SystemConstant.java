@@ -13,7 +13,7 @@ public class SystemConstant {
     public static final Integer USERSTAYUS = 0;
 
     /**
-     * 级别
+     * 管理员级别3
      */
     public static final Integer  USERLEVEL = 3;
 
@@ -31,4 +31,9 @@ public class SystemConstant {
      * 车位为1的会员车位
      */
     public static final Integer  VIP_CAR = 1;
+
+    /**
+     * 支付状态为0待付款
+     */
+    public static final Integer  NO_PAY = 0;
 }

@@ -54,13 +54,14 @@
                      else if(${user.level == 3 } && d.orderStatus == 1) {
                          html += "<td>订单完成</td>";
                      }
-
-                    html += "<td>"
-                    html += "<div class='layui-btn-group'>"
-                    html += "<button type='button' class='layui-btn layui-btn-sm' onclick='del("+d.id+")'>删除</button>"
-                    html += "</div>"
-                    html += "</td>"
-                    html += "</tr>";
+                    if (${user.level==3}) {
+                        html += "<td>"
+                        html += "<div class='layui-btn-group'>"
+                        html += "<button type='button' class='layui-btn layui-btn-sm' onclick='del(" + d.id + ")'>删除</button>"
+                        html += "</div>"
+                        html += "</td>"
+                        html += "</tr>";
+                    }
 				}
                 $("#tbd").html(html);
                 pageInfo += "<input type = 'button' value='上一页' onclick='page(0, "+data.data.pages+")'/>";
@@ -148,7 +149,9 @@
 		<th>车位编号</th>
 		<th>支付金额</th>
 		<th>订单状态</th>
+          <c:if test="${user.level==3}">
           <th>操作</th>
+          </c:if>
       </tr> 
     </thead>
      <tbody id="tbd"></tbody>
