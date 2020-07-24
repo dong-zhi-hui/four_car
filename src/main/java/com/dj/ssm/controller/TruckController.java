@@ -121,12 +121,12 @@ public class TruckController {
 
     @RequestMapping("findTruckByCount")
     public ResultModel findTruckByCount() {
-        Map<String,Object> map = new HashMap<String, Object>();
+        Map<String,Object> map = new HashMap<>();
         try {
             //空置
-            Integer count1 = truckService.findTruckByCount(0);
+            Integer count1 = truckService.findTruckByCount(SystemConstant.PARKING_STATE_0);
             //已预约
-            Integer count2 = truckService.findTruckByCount(1);
+            Integer count2 = truckService.findTruckByCount(SystemConstant.PARKING_STATE_1);
             //总车位
             Integer countAll = count1 + count2;
             map.put("countAll", countAll);

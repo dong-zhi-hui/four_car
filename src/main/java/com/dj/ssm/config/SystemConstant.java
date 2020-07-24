@@ -36,4 +36,16 @@ public class SystemConstant {
      * 支付状态为0待付款
      */
     public static final Integer  NO_PAY = 0;
+
+    /**
+     * 车位状态
+     */
+    public static final Integer PARKING_STATE_0  = 0;
+
+    /**
+     * 车位状态
+     */
+    public static final Integer PARKING_STATE_1  = 1;
+
+
 }
