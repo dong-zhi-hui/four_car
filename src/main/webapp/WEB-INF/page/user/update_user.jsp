@@ -1,11 +1,12 @@
 <%--
   Created by IntelliJ IDEA.
   User: dell
-  Date: 2020/7/23
-  Time: 19:27
+  Date: 2020/7/24
+  Time: 10:10
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Title</title>
@@ -32,7 +33,7 @@
                             time: 1000 //2秒关闭（如果不配置，默认是3秒）
                         }, function(){
                             layer.close(index);
-                            parent.location.href= "<%=request.getContextPath()%>/user/toLogin";
+                            parent.location.href= "<%=request.getContextPath()%>/user/toShow";
                         });
                     })
             }
@@ -40,47 +41,34 @@
         $().ready(function() {
             $("#fm").validate({
                 rules : {
-                    password : {
+                    userName : {
                         required: true,
-                        rangelength: [3, 8],
-                        remote: {
-                            url: "<%=request.getContextPath()%>/user/findUserPwd",
-                            type: "post",
-                            data: {
-                                password: function() {
-                                    return $("#password").val();
-                                },
-
-                            },
-                            dataType: "json",
-                            dataFilter: function(data, type) {
-                                if(data == 'true'){
-                                    return true;
-                                }else{
-                                    return false;
-                                }
-                            }
-                        },
+                        rangelength: [1, 4],
                     },
-
-                    userPwd : {
+                    phone :{
                         required : true,
-                        rangelength :[3, 8],
-                    },
+                        rangelength:[11,11],
 
+                    },
+                    plateNumber :{
+                        required : true,
+                        maxlength:6,
+
+                    },
                 },
                 messages : {
-                    password : {
-                        required : "请输入旧密码",
-                        rangelength : "密码最少3位,最多8个位",
-                        remote : "旧密码错误",
+                    userName : {
+                        required : "请输入用户名",
+                        rangelength : "用户名最少一个,最多4个字母组成",
                     },
-
-                    userPwd : {
-                        required : "请输入密码",
-                        minlength :"密码不得少于3位",
+                    phone :{
+                        required : "请输入手机号",
+                        rangelength:"必须写11位",
                     },
-
+                    plateNumber :{
+                        required : "请输入车牌号号",
+                        maxlength:"车牌号必须6位",
+                    },
                 },
             });
         });
@@ -93,11 +81,14 @@
     </style>
 </head>
 <body>
-<form id = "fm" align="center">
-    <input type="hidden" value="${updateUserPwd.id}" name="id">
-    旧密码<input type="text" name="password" id = "password" style="width: 230px; height: 30px" /><br>
-    新密码<input type="text" name="userPwd" id = "userPwd" style="width: 230px; height: 30px" /><br/>
-    <input  type = "submit" value = "确认"  class="layui-btn" ><br/>
+<form id = "fm">
+    <input type="hidden" name="id" value="${updateUser.id}">
+    用户名<input type="text" name="userName" value="${updateUser.userName}" style="width: 230px; height: 30px" /><br>
+    手机号<input type="text" name="phone" value="${updateUser.phone}" style="width: 230px; height: 30px" /><br>
+    车牌号<input type="text" name="plateNumber" value="${updateUser.plateNumber}" style="width: 230px; height: 30px" /><br>
+    状态:无效<input type="radio" name="userStatus"  <c:if test="${updateUser.userStatus == 0}"> checked = "checked" </c:if> value="0" />
+        有效<input type="radio" name="userStatus" <c:if test="${updateUser.userStatus == 1}"> checked = "checked" </c:if> value="1"/><br>
+    <input  type = "submit" value = "注册"  class="layui-btn" >
 </form>
 </body>
 </html>

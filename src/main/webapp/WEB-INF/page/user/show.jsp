@@ -45,7 +45,7 @@
                         html += "<td>"+u.userName+"</td>";
                         html += "<td>"+u.phone+"</td>";
                         html += "<td>"+u.plateNumber+"</td>";
-                        if(u.userStatus == 0){
+                        if(u.userStatus == 1){
                             html += "<td>有效</td>";
                         }else{
                             html += "<td>无效</td>";
@@ -97,10 +97,10 @@
             show();
         }
         
-        function upd(id,status) {
+        function upd(id) {
             layer.open({
                 type: 2,
-                title: '修改密码',
+                title: '修改用户信息',
                 shade: 0.8,
                 area: ['400px', '70%'],
                 content: '<%=request.getContextPath()%>/user/toUpdateUser/'+id
