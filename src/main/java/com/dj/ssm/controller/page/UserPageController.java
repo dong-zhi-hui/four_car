@@ -43,9 +43,14 @@ public class UserPageController {
     @RequestMapping("toUpdateUserPwd/{id}")
     public String toUpdateUserPwd(@PathVariable("id") Integer id, Model model){
         User user = userService.getById(id);
-        model.addAttribute("userUpdate", user);
-        return "user/update";
+        model.addAttribute("updateUserPwd", user);
+        return "user/update_user_pwd";
     }
 
-
+    @RequestMapping("toUpdateUser/{id}")
+    public String toUpdateUser(@PathVariable("id") Integer id, Model model){
+        User user = userService.getById(id);
+        model.addAttribute("updateUser", user);
+        return "user/update_user";
+    }
 }
