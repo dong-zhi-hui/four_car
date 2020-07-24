@@ -31,7 +31,7 @@ public class User {
     private String plateNumber;
 
 
-    /** 用户状态 */
+    /** 用户状态 0无效 1有效*/
     private Integer userStatus;
 
     /** 创建时间 */

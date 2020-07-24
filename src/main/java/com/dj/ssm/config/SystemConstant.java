@@ -21,4 +21,14 @@ public class SystemConstant {
      * 级别
      */
     public static final Integer  FINITETIME = 30;
+
+    /**
+     * 用户等级为1
+     */
+    public static final Integer USER_LEVEL = 0;
+
+    /**
+     * 车位为1的会员车位
+     */
+    public static final Integer  VIP_CAR = 1;
 }

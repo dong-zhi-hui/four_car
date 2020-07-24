@@ -4,13 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dj.ssm.config.ResultModel;
+import com.dj.ssm.config.SystemConstant;
 import com.dj.ssm.pojo.TruckSpace;
 import com.dj.ssm.pojo.TruckSpaceQuery;
+import com.dj.ssm.pojo.User;
 import com.dj.ssm.service.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,8 +49,12 @@ public class TruckController {
     }
 
     @RequestMapping("update")
-    public ResultModel update(TruckSpace truckSpace){
+    public ResultModel update(TruckSpace truckSpace, @SessionAttribute("user")User user){
         try {
+            TruckSpace truckServiceById = truckService.getById(truckSpace.getId());
+            if(user.getLevel().equals(SystemConstant.USER_LEVEL) || truckServiceById.getCarLevel().equals(SystemConstant.VIP_CAR)){
+                return new ResultModel().error("不能停会员车位");
+            }
             truckService.updateById(truckSpace);
             return new ResultModel().success(true);
         } catch (Exception e) {
