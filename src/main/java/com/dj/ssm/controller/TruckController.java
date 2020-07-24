@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -63,6 +64,15 @@ public class TruckController {
             if(user.getLevel().equals(SystemConstant.USER_LEVEL) && truckServiceById.getCarLevel().equals(SystemConstant.VIP_CAR)){
                 return new ResultModel().error("不能停会员车位");
             }
+            QueryWrapper<OrderCar> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("user_name", user.getUserName());
+            List<OrderCar> list = orderCarService.list(queryWrapper);
+            for (OrderCar one : list) {
+                if(one != null && one.getOrderStatus() == 0){
+                    return new ResultModel().error("您已经停过车");
+                }
+            }
+
             truckService.updateById(truckSpace);
             OrderCar orderCar = new OrderCar();
             String odd = "DJ" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
