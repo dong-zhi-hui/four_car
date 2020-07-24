@@ -38,19 +38,19 @@ public class UserController {
     public ResultModel login(User user, HttpSession session){
         try {
             if(user.getUserName().isEmpty() || user.getUserPwd().isEmpty()){
-                return new ResultModel().success("账号或密码不能为空");
+                return new ResultModel().error("账号或密码不能为空");
             }
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("user_name", user.getUserName()).or().eq("phone", user.getUserName());
+            queryWrapper.eq("user_name", user.getUserName());
             queryWrapper.eq("user_pwd", user.getUserPwd());
             User u = userService.getOne(queryWrapper);
             if(null == u){
                 return new ResultModel().error("账号或密码错误");
             }
-            session.setAttribute("user", u);
             if(u.getUserStatus() == SystemConstant.USERSTAYUS){
                 return new ResultModel().error("请邮箱验证");
             }
+            session.setAttribute("user", u);
             return new ResultModel().success();
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,21 +138,7 @@ public class UserController {
         }
     }
 
-    /**
-     * 修改状态
-     * @param user
-     * @return
-     */
-    @RequestMapping("updateUserStatus")
-    public ResultModel updateUserStatus(User user){
-        try {
-            userService.updateById(user);
-            return new ResultModel().success();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResultModel().error("服务器异常");
-        }
-    }
+
 
     /**
      * 获取验证码
@@ -205,20 +191,19 @@ public class UserController {
             queryWrapper.eq("code", user.getCode());
             User user2 = userService.getOne(queryWrapper);
             if (null == user2) {
-                return new ResultModel<Object>().error("输入信息有误！");
+                return new ResultModel().error("输入信息有误！");
             }
             if (user2.getUserStatus() == SystemConstant.USERSTAYUS) {
-                return new ResultModel<Object>().error("用户无效请注册");
+                return new ResultModel().error("用户无效请注册");
             }
             if (new Date().getTime() > user2.getFiniteTime().getTime()) {
-                return new ResultModel<Object>().error("验证码超时,请从新获取验证码");
+                return new ResultModel().error("验证码超时,请从新获取验证码");
             }
             session.setAttribute("user", user2);
             return new ResultModel<Object>().success();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
-            return new ResultModel<Object>().error("服务器出错了");
+            return new ResultModel().error("服务器出错了");
         }
 
     }
@@ -250,6 +235,17 @@ public class UserController {
     public ResultModel updateUser(User user){
         try {
             userService.updateById(user);
+            return new ResultModel().success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel().error("服务器异常");
+        }
+    }
+
+    @RequestMapping("delUser")
+    public ResultModel delUser(Integer id){
+        try {
+            userService.removeById(id);
             return new ResultModel().success();
         } catch (Exception e) {
             e.printStackTrace();
