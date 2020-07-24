@@ -34,14 +34,20 @@
         }
 
         function toPhoneLogin() {
-            window.location.href ="<%=request.getContextPath()%>/user/toPhoneLogin";
+            layer.open({
+                type: 2,
+                title: '手机验证码登录',
+                shade: 0.8,
+                area: ['400px', '70%'],
+                content: '<%=request.getContextPath()%>/user/toPhoneLogin'
+            });
         }
     </script>
 
 </head>
 <body align="center">
 <form id = "fm" >
-    账号或手机号<input type="text" name="userName"/><br/>
+    账号<input type="text" name="userName"/><br/>
     密码<input type="text" name="userPwd"/><br/>
     <button type="button" onclick="login()">登录</button>
     <button type="button" onclick="toPhoneLogin()">手机验证码登录</button><br/>

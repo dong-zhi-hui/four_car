@@ -242,4 +242,15 @@ public class UserController {
         }
     }
 
+    @RequestMapping("delUser")
+    public ResultModel delUser(Integer id){
+        try {
+            userService.removeById(id);
+            return new ResultModel().success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel().error("服务器异常");
+        }
+    }
+
 }

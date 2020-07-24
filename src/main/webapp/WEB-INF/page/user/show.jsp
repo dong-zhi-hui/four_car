@@ -63,7 +63,8 @@
                         html += "<td>"
                         html += "<div class='layui-btn-group'>"
                         if(level == 3  ){
-                                html += "<button  type = \"button\" class=\"layui-btn\" onclick=\"upd("+u.id+")\">修改信息</button>"
+                            html += "<button  type = \"button\" class=\"layui-btn\" onclick=\"upd("+u.id+")\">修改信息</button>"
+                            html += "<button  type = \"button\" class=\"layui-btn\" onclick=\"del("+u.id+")\">删除用户</button>"
                         } else if(level != 3){
                             html += "<button  type = \"button\" class=\"layui-btn\" onclick=\"toUpdateUserPwd("+u.id+")\">修改密码</button>"
                         }
@@ -99,7 +100,8 @@
             }
             show();
         }
-        
+
+        //修改用户信息
         function upd(id) {
             layer.open({
                 type: 2,
@@ -109,7 +111,7 @@
                 content: '<%=request.getContextPath()%>/user/toUpdateUser/'+id
             });
         }
-
+        //修改密码
         function toUpdateUserPwd(id) {
             layer.open({
                 type: 2,
@@ -118,6 +120,23 @@
                 area: ['400px', '70%'],
                 content: '<%=request.getContextPath()%>/user/toUpdateUserPwd/'+id
             });
+        }
+
+        //删除
+        function del(id) {
+            var index = layer.load(1,{shade:0.5});
+            $.post(
+                "<%=request.getContextPath()%>/user/delUser",
+                {"id":id},
+                function(data){
+                    layer.close(index);
+                    if (data.code!= 200) {
+                        layer.msg(data.msg, {icon:5});
+                        return;
+                    }
+                    layer.msg(data.msg, {icon:6});
+                    show();
+                })
         }
 
     </script>    
