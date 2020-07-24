@@ -38,6 +38,11 @@ public class TruckController {
     @Autowired
     private OrderCarService orderCarService;
 
+    /**
+     * 车位管理展示
+     * @param truckSpaceQuery
+     * @return
+     */
     @RequestMapping("show")
     public ResultModel show(TruckSpaceQuery truckSpaceQuery){
         try {
@@ -92,6 +97,11 @@ public class TruckController {
         }
     }
 
+    /**
+     * 车位删除
+     * @param id
+     * @return
+     */
     @RequestMapping("del")
     public ResultModel del(Integer id){
         try {
@@ -102,6 +112,11 @@ public class TruckController {
         }
     }
 
+    /**
+     * 增加车位
+     * @param truckSpace
+     * @return
+     */
     @RequestMapping("add")
     public ResultModel add(TruckSpace truckSpace){
         try {
@@ -114,6 +129,11 @@ public class TruckController {
 
     }
 
+    /**
+     * 去重车位编号
+     * @param truckSpace
+     * @return
+     */
     @RequestMapping("findCarNumber")
     public Boolean findCarNumber(TruckSpace truckSpace){
         try {
@@ -129,6 +149,10 @@ public class TruckController {
         return false;
     }
 
+    /**
+     * echars展示
+     * @return
+     */
     @RequestMapping("findTruckByCount")
     public ResultModel findTruckByCount() {
         Map<String,Object> map = new HashMap<>();

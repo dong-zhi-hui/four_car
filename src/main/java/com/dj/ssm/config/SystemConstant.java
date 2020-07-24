@@ -38,6 +38,11 @@ public class SystemConstant {
     public static final Integer  NO_PAY = 0;
 
     /**
+     * 支付状态为1订单完成
+     */
+    public static final Integer  YES_PAY = 1;
+
+    /**
      * 车位状态
      */
     public static final Integer PARKING_STATE_0  = 0;

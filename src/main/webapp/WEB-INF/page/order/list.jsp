@@ -71,6 +71,17 @@
 			})
 	}
 
+	function look(id) {
+        layer.open({
+            type: 2,
+            title: '查看信息',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['480px', '80%'],
+            content: '<%=request.getContextPath()%>/order/toPayShow/'+id
+        });
+    }
+
     //分页
     function page(temp,pages){
         var page = $("#pageNo").val();

@@ -6,10 +6,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dj.ssm.config.ResultModel;
 import com.dj.ssm.config.SystemConstant;
-import com.dj.ssm.pojo.OrderCar;
-import com.dj.ssm.pojo.OrderCarQuery;
-import com.dj.ssm.pojo.TruckSpace;
-import com.dj.ssm.pojo.User;
+import com.dj.ssm.pojo.*;
+import com.dj.ssm.service.LocusService;
 import com.dj.ssm.service.OrderCarService;
 import com.dj.ssm.service.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,9 +29,19 @@ public class OrderCarController {
 
     @Autowired
     private OrderCarService orderCarService;
+
     @Autowired
     private TruckService truckService;
 
+    @Autowired
+    private LocusService locusService;
+
+    /**
+     * 订单展示
+     * @param orderCarQuery
+     * @param user
+     * @return
+     */
     @RequestMapping("show")
     public ResultModel show(OrderCarQuery orderCarQuery, @SessionAttribute("user") User user){
         try {
@@ -55,6 +64,11 @@ public class OrderCarController {
         }
     }
 
+    /**
+     * 订单删除
+     * @param id
+     * @return
+     */
     @RequestMapping("del")
     public ResultModel del(Integer id){
         try {
@@ -66,7 +80,7 @@ public class OrderCarController {
     }
 
     @RequestMapping("updatePay")
-    public ResultModel updatePay(OrderCar orderCar){
+    public ResultModel updatePay(OrderCar orderCar, String pay, @SessionAttribute ("user") User user){
         try {
             orderCarService.updateById(orderCar);
             OrderCar orderCar1 = orderCarService.getById(orderCar.getId());
@@ -77,6 +91,14 @@ public class OrderCarController {
                 updateWrapper.eq("car_number", orderCar1.getCarNumber());
                 updateWrapper.set("car_status", truckSpace.getCarStatus());
                 truckService.update(updateWrapper);
+            }
+            if(orderCar.getOrderStatus() == SystemConstant.YES_PAY){
+                Locus locus = new Locus();
+                locus.setAction(pay);
+                locus.setOrderDate(LocalDateTime.now());
+                locus.setOrderId(orderCar.getId());
+                locus.setUserName(user.getUserName());
+                locusService.save(locus);
             }
             return new ResultModel().success(true);
         } catch (Exception e) {
