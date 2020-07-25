@@ -64,13 +64,21 @@ public class TruckController {
         }
     }
 
+    /**
+     * 更改车辆管理状态 空置已预约
+     * @param truckSpace
+     * @param user
+     * @return
+     */
     @RequestMapping("update")
     public ResultModel update(TruckSpace truckSpace, @SessionAttribute("user") User user) {
         try {
+            //判断等级为用户0是 并且是会员车位  不能预约
             TruckSpace truckServiceById = truckService.getById(truckSpace.getId());
             if (user.getLevel().equals(SystemConstant.USER_LEVEL) && truckServiceById.getCarLevel().equals(SystemConstant.VIP_CAR)) {
                 return new ResultModel().error("不能停会员车位");
             }
+            //判断登录username 有没有订单为待付款的
             QueryWrapper<OrderCar> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_name", user.getUserName());
             List<OrderCar> list = orderCarService.list(queryWrapper);
@@ -81,6 +89,7 @@ public class TruckController {
             }
 
             truckService.updateById(truckSpace);
+            //添加订单信息
             OrderCar orderCar = new OrderCar();
             String odd = "DJ" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
             orderCar.setOrderNumber(odd);
@@ -89,10 +98,14 @@ public class TruckController {
             orderCar.setCreateTime(LocalDateTime.now());
             orderCar.setPlateNumber(user.getPlateNumber());
             orderCar.setCarNumber(truckServiceById.getCarNumber());
+            //用户等级为1的会员 打九折
             if (user.getLevel() == SystemConstant.USER_VIP){
                  orderCar.setPrice(truckServiceById.getPrice().multiply(BigDecimal.valueOf(SystemConstant.JIUZHE)));
+                 //   //用户等级为2的高级会员 打八折
             } else if (user.getLevel() == SystemConstant.USER_HIGH_VIP){
-                 orderCar.setPrice(truckServiceById.getPrice().multiply(BigDecimal.valueOf(SystemConstant.JIUZHE)));
+                 orderCar.setPrice(truckServiceById.getPrice().multiply(BigDecimal.valueOf(SystemConstant.BAZHE)));
+                orderCar.setFree(1);
+
             }else {
                 orderCar.setPrice(truckServiceById.getPrice());
             }

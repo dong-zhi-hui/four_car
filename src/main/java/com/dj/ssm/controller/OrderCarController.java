@@ -88,10 +88,20 @@ public class OrderCarController {
         }
     }
 
+    /**
+     * 修改订单状态 把待付款改为订单完成
+     * @param orderCar
+     * @param pay
+     * @param user
+     * @param session
+     * @return
+     */
     @RequestMapping("updatePay")
     public ResultModel updatePay(OrderCar orderCar, String pay, @SessionAttribute("user") User user, HttpSession session) {
         try {
+
             orderCarService.updateById(orderCar);
+            //订单完成车位变成空置
             OrderCar orderCar1 = orderCarService.getById(orderCar.getId());
             if (orderCar1 != null && orderCar1.getOrderStatus() == SystemConstant.YES_PAY) {
                 TruckSpace truckSpace = new TruckSpace();
@@ -101,6 +111,7 @@ public class OrderCarController {
                 updateWrapper.set("car_status", truckSpace.getCarStatus());
                 truckService.update(updateWrapper);
             }
+            //添加支付信息轨迹
             if (orderCar.getOrderStatus() == SystemConstant.YES_PAY) {
                 Locus locus = new Locus();
                 locus.setAction(pay);
@@ -109,6 +120,7 @@ public class OrderCarController {
                 locus.setUserName(user.getUserName());
                 locusService.save(locus);
             }
+            //计算总金额
             QueryWrapper<OrderCar> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_name", user.getUserName());
             BigDecimal money = new BigDecimal(SystemConstant.LING);
@@ -118,7 +130,7 @@ public class OrderCarController {
                     money = money.add(one.getPrice());
                 }
             }
-
+            //判断金额为200为普通会员 500高级会员
             QueryWrapper<User> queryWrapper1 = new QueryWrapper<>();
             queryWrapper1.eq("user_name", user.getUserName());
             User one = userService.getOne(queryWrapper1);
@@ -128,6 +140,7 @@ public class OrderCarController {
             }else if(Double.valueOf(String.valueOf(money)) >= SystemConstant.WUBAI){
                 one.setLevel(SystemConstant.USER_HIGH_VIP);
                 userService.updateById(one);
+
             }
             session.setAttribute("user", one);
             return new ResultModel().success(true);
