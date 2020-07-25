@@ -7,10 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dj.ssm.config.ResultModel;
 import com.dj.ssm.config.SystemConstant;
 import com.dj.ssm.pojo.*;
-import com.dj.ssm.service.LocusService;
-import com.dj.ssm.service.OrderCarService;
-import com.dj.ssm.service.TruckService;
-import com.dj.ssm.service.UserService;
+import com.dj.ssm.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +39,9 @@ public class OrderCarController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FellService fellService;
 
     /**
      * 订单展示
@@ -131,6 +131,23 @@ public class OrderCarController {
                     money = money.add(one.getPrice());
                 }
             }
+
+            //如果消费金额大于500 免费赠送一次
+            if (Integer.valueOf(String.valueOf(money)) > 500) {
+                QueryWrapper<Fell> wrapper = new QueryWrapper<>();
+                wrapper.eq("user_id",user.getId());
+                Fell fell = fellService.getOne(wrapper);
+                if (null == fell) {
+                    fell.setUserId(user.getId());
+                    fell.setFellCount(Integer.valueOf(String.valueOf(money))/500);
+                    fell.setFailureCount(0);
+                    fellService.save(fell);
+                } else {
+                    fell.setFailureCount(Integer.valueOf(String.valueOf(money))/500-fell.getFailureCount());
+                    fellService.updateById(fell);
+                }
+            }
+
             //判断金额为200为普通会员 500高级会员
             QueryWrapper<User> queryWrapper1 = new QueryWrapper<>();
             queryWrapper1.eq("user_name", user.getUserName());

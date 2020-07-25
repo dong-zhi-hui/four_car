@@ -18,6 +18,7 @@ public class WebConfiguration implements WebMvcConfigurer {
         //拦截请求
         interruptedException.addPathPatterns("/**");
         //放过请求
+        interruptedException.excludePathPatterns("/static/**");
         interruptedException.excludePathPatterns("/user/*");
 
 
