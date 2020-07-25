@@ -5,10 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dj.ssm.config.ResultModel;
 import com.dj.ssm.config.SystemConstant;
-import com.dj.ssm.pojo.OrderCar;
-import com.dj.ssm.pojo.TruckSpace;
-import com.dj.ssm.pojo.TruckSpaceQuery;
-import com.dj.ssm.pojo.User;
+import com.dj.ssm.pojo.*;
+import com.dj.ssm.service.FellService;
 import com.dj.ssm.service.OrderCarService;
 import com.dj.ssm.service.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +36,9 @@ public class TruckController {
 
     @Autowired
     private OrderCarService orderCarService;
+
+    @Autowired
+    private FellService fellService;
 
     /**
      * 车位管理展示
@@ -103,7 +104,15 @@ public class TruckController {
                  orderCar.setPrice(truckServiceById.getPrice().multiply(BigDecimal.valueOf(SystemConstant.JIUZHE)));
                  //   //用户等级为2的高级会员 打八折
             } else if (user.getLevel() == SystemConstant.USER_HIGH_VIP){
-                 orderCar.setPrice(truckServiceById.getPrice().multiply(BigDecimal.valueOf(SystemConstant.JIUZHE)));
+                orderCar.setPrice(truckServiceById.getPrice().multiply(BigDecimal.valueOf(SystemConstant.BAZHE)));
+                QueryWrapper<Fell> wrapper = new QueryWrapper<>();
+                wrapper.eq("user_id",user.getId());
+                Fell fell = fellService.getOne(wrapper);
+                if(null != fell && fell.getFreeCount() > 0) {
+                    fell.setFailureCount(fell.getFailureCount()+1);
+                    fellService.updateById(fell);
+                    orderCar.setPrice(BigDecimal.valueOf(0));
+                }
             }else {
                 orderCar.setPrice(truckServiceById.getPrice());
             }

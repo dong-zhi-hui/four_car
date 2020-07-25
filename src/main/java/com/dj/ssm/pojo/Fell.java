@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("fell")
+@TableName("free")
 public class Fell {
 
     /** 主键id */
@@ -17,7 +17,7 @@ public class Fell {
     private Integer userId;
 
     /** 免费次数 */
-    private Integer fellCount;
+    private Integer freeCount;
 
     /** 已用次数 */
     private Integer failureCount;

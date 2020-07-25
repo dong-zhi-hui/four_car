@@ -133,17 +133,18 @@ public class OrderCarController {
             }
 
             //如果消费金额大于500 免费赠送一次
-            if (Integer.valueOf(String.valueOf(money)) > 500) {
+            if (Double.valueOf(String.valueOf(money)) > 500) {
                 QueryWrapper<Fell> wrapper = new QueryWrapper<>();
                 wrapper.eq("user_id",user.getId());
                 Fell fell = fellService.getOne(wrapper);
                 if (null == fell) {
-                    fell.setUserId(user.getId());
-                    fell.setFellCount(Integer.valueOf(String.valueOf(money))/500);
-                    fell.setFailureCount(0);
-                    fellService.save(fell);
+                    Fell f = new Fell();
+                    f.setUserId(user.getId());
+                    f.setFreeCount(Integer.valueOf(String.valueOf(money.divide(new BigDecimal(500)).setScale( 0, BigDecimal.ROUND_DOWN ))));
+                    f.setFailureCount(0);
+                    fellService.save(f);
                 } else {
-                    fell.setFailureCount(Integer.valueOf(String.valueOf(money))/500-fell.getFailureCount());
+                    fell.setFreeCount(Integer.valueOf(String.valueOf(money.divide(new BigDecimal(500)).setScale( 0, BigDecimal.ROUND_DOWN )))-fell.getFailureCount());
                     fellService.updateById(fell);
                 }
             }
