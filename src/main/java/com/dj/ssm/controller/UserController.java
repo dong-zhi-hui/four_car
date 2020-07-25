@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
@@ -22,6 +23,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * user控制层
+ */
 @RestController
 @RequestMapping("/user/")
 public class UserController {
@@ -31,23 +35,24 @@ public class UserController {
 
     /**
      * 登录
+     *
      * @param user
      * @return
      */
     @RequestMapping("login")
-    public ResultModel login(User user, HttpSession session){
+    public ResultModel login(User user, HttpSession session) {
         try {
-            if(user.getUserName().isEmpty() || user.getUserPwd().isEmpty()){
+            if (user.getUserName().isEmpty() || user.getUserPwd().isEmpty()) {
                 return new ResultModel().error("账号或密码不能为空");
             }
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_name", user.getUserName());
             queryWrapper.eq("user_pwd", user.getUserPwd());
             User u = userService.getOne(queryWrapper);
-            if(null == u){
+            if (null == u) {
                 return new ResultModel().error("账号或密码错误");
             }
-            if(u.getUserStatus() == SystemConstant.USERSTAYUS){
+            if (u.getUserStatus() == SystemConstant.USERSTAYUS) {
                 return new ResultModel().error("请邮箱验证");
             }
             session.setAttribute("user", u);
@@ -61,29 +66,30 @@ public class UserController {
 
     /**
      * 用户展示
+     *
      * @param userQuery
      * @param user
      * @return
      */
     @RequestMapping("show")
-    public ResultModel show(UserQuery userQuery, @SessionAttribute("user") User user){
+    public ResultModel show(UserQuery userQuery, @SessionAttribute("user") User user) {
         try {
-            Map<String,Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
             //分页
             Page<User> page = new Page<>(userQuery.getPageNo(), userQuery.getPageNoSize());
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
             //用户名查询
-            if(StringUtils.hasText(userQuery.getUserName())){
+            if (StringUtils.hasText(userQuery.getUserName())) {
                 queryWrapper.eq("user_name", userQuery.getUserName());
             }
             //条件限定
-            if(user.getLevel() != SystemConstant.USERLEVEL){
+            if (user.getLevel() != SystemConstant.USERLEVEL) {
                 queryWrapper.eq("id", user.getId());
             }
-            IPage<User> pageInfo = userService.page(page,queryWrapper);
-            map.put("user",pageInfo.getRecords());
+            IPage<User> pageInfo = userService.page(page, queryWrapper);
+            map.put("user", pageInfo.getRecords());
             map.put("pages", pageInfo.getPages());
-           // List<User> user = userService.list();
+            // List<User> user = userService.list();
             return new ResultModel().success(map);
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,21 +99,22 @@ public class UserController {
 
     /**
      * 姓名  手机号  车牌号  查重
+     *
      * @param user
      * @return
      */
     @RequestMapping("findUserNameOrPhoneOrPlateNumber")
-    public Boolean findUserNameOrPhoneOrPlateNumber(User user){
+    public Boolean findUserNameOrPhoneOrPlateNumber(User user) {
 
         try {
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-            if(StringUtils.hasText(user.getUserName())){
+            if (StringUtils.hasText(user.getUserName())) {
                 queryWrapper.eq("user_name", user.getUserName());
             }
-            if(StringUtils.hasText(user.getPhone())){
+            if (StringUtils.hasText(user.getPhone())) {
                 queryWrapper.eq("phone", user.getPhone());
             }
-            if(StringUtils.hasText(user.getPlateNumber())){
+            if (StringUtils.hasText(user.getPlateNumber())) {
                 queryWrapper.eq("plate_number", user.getPlateNumber());
             }
             User u = userService.getOne(queryWrapper);
@@ -120,11 +127,12 @@ public class UserController {
 
     /**
      * 用户注册
+     *
      * @param user
      * @return
      */
     @RequestMapping("register")
-    public ResultModel register(User user, HttpServletRequest request){
+    public ResultModel register(User user, HttpServletRequest request) {
         try {
             user.setCreateTime(LocalDateTime.now());
             userService.saveUser(user);
@@ -139,9 +147,9 @@ public class UserController {
     }
 
 
-
     /**
      * 获取验证码
+     *
      * @param user
      * @return
      */
@@ -151,7 +159,7 @@ public class UserController {
             if (StringUtils.isEmpty(user.getPhone())) {
                 return new ResultModel<Object>().error("不为空");
             }
-           QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("phone", user.getPhone());
             User user2 = userService.getOne(queryWrapper);
             if (user2 == null) {
@@ -176,6 +184,7 @@ public class UserController {
 
     /**
      * 手机号登录
+     *
      * @param user
      * @param session
      * @return
@@ -210,29 +219,45 @@ public class UserController {
 
     /**
      * 判断旧密码是否正确
+     *
      * @param userQuery
      * @param user
      * @return
      */
     @RequestMapping("findUserPwd")
-    public boolean findUserPwd(UserQuery userQuery, @SessionAttribute("user") User user){
+    public boolean findUserPwd(UserQuery userQuery, @SessionAttribute("user") User user) {
         try {
-            if(userQuery.getPassword().equals(user.getUserPwd())){
+            if (userQuery.getPassword().equals(user.getUserPwd())) {
                 return true;
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
+    @RequestMapping("userPwd")
+    public boolean userPwd(String userPwd,  @SessionAttribute("user") User user) {
+        try {
+            if (user.getUserPwd().equals(userPwd)) {
+                return false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     /**
      * 修改密码
+     *
      * @param user
      * @return
      */
     @RequestMapping("updateUser")
-    public ResultModel updateUser(User user){
+    public ResultModel updateUser(User user) {
         try {
             userService.updateById(user);
             return new ResultModel().success();
@@ -242,8 +267,14 @@ public class UserController {
         }
     }
 
+    /**
+     * 管理员删除用户
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping("delUser")
-    public ResultModel delUser(Integer id){
+    public ResultModel delUser(Integer id) {
         try {
             userService.removeById(id);
             return new ResultModel().success();

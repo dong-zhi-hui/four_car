@@ -29,4 +29,6 @@ public class TruckSpace {
 
     /*** 车位等级0:普通车位 1:会员车位*/
     private Integer carLevel;
+
+
 }

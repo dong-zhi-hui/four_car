@@ -19,41 +19,37 @@ public class MessagePageController {
 
     /**
      * 去留言板
+     *
      * @return
      */
     @RequestMapping("toShow")
-    public String toShow(){
+    public String toShow() {
         return "message/show";
     }
 
     /**
      * 去新增留言
+     *
      * @return
      */
     @RequestMapping("toAdd")
-    public String toAdd(){
+    public String toAdd() {
         return "message/add";
     }
 
     /**
      * 回复
+     *
      * @param id
      * @param model
      * @return
      */
     @RequestMapping("toUpdate")
-    public String toUpdate(Integer id, Model model){
+    public String toUpdate(Integer id, Model model) {
         Message message = messageService.getById(id);
         model.addAttribute("message", message);
         return "message/update";
     }
 
-    /**
-     * 去我的留言记录
-     * @return
-     */
-    @RequestMapping("toFindMessageExp")
-    public String toFindMessageExp(){
-        return "message/exp";
-    }
+
 }

@@ -79,9 +79,9 @@
 <form id="fm" >
 	车位编号:<input type="text" name="carNumber" id="carNumber"/><br />
 	车位价格:<input type="text" name="price" /><br />
-	车位状态<input type="radio" name="carStatus" value="0" >空置
-	<input type="radio" name="carStatus" value="1" >已预约<br />
-	车位等级<input type="radio" name="carLevel" value="0" >普通车位
+	车位状态<input type="radio" name="carStatus" value="0" checked>空置<br />
+
+	车位等级<input type="radio" name="carLevel" value="0" checked>普通车位
 	<input type="radio" name="carLevel" value="1" >会员车位<br />
 	<input type="submit" value="增加"/>
 </form>

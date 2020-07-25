@@ -10,31 +10,31 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/index/")
 public class IndexPageController {
 
-	@RequestMapping("toIndex")
-	public String toIndex() {
-		return "index/index";
-	}
+    @RequestMapping("toIndex")
+    public String toIndex() {
+        return "index/index";
+    }
 
-	@RequestMapping("toLeft")
-	public String toLeft() {
-		return "index/left";
-	}
+    @RequestMapping("toLeft")
+    public String toLeft() {
+        return "index/left";
+    }
 
-	@RequestMapping("toRight")
-	public String toRight() {
-		return "index/right";
-	}
+    @RequestMapping("toRight")
+    public String toRight() {
+        return "index/right";
+    }
 
-	@RequestMapping("toTop")
-	public String toTop() {
-		return "index/top";
-	}
+    @RequestMapping("toTop")
+    public String toTop() {
+        return "index/top";
+    }
 
-	@RequestMapping("toEsc")
-	public String toEsc(HttpSession session) {
-		session.invalidate();
-		return "user/login";
-	}
+    @RequestMapping("toEsc")
+    public String toEsc(HttpSession session) {
+        session.invalidate();
+        return "user/login";
+    }
 
 
 }

@@ -11,7 +11,7 @@
 <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layer-v3.1.1/layer/layer.js"></script>
 <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layui-v2.5.6/layui/layui.js"></script>
 <script type="text/javascript">
-	
+
 	$(function () {
 		search();
 	})
@@ -70,6 +70,17 @@
                 $("#pageInfo").html(pageInfo);
 			})
 	}
+
+	function look(id) {
+        layer.open({
+            type: 2,
+            title: '查看信息',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['480px', '80%'],
+            content: '<%=request.getContextPath()%>/order/toPayShow/'+id
+        });
+    }
 
     //分页
     function page(temp,pages){

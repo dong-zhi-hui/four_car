@@ -47,6 +47,9 @@ public class OrderCar {
     /**  支付状态 0:待支付 1已支付*/
     private Integer orderStatus;
 
+    /**  免费0 没有 1有*/
+    private Integer free;
+
 
 
 

@@ -23,9 +23,19 @@ public class SystemConstant {
     public static final Integer  FINITETIME = 30;
 
     /**
-     * 用户等级为1
+     * 用户等级为0
      */
     public static final Integer USER_LEVEL = 0;
+
+    /**
+     * 用户等级为1会员
+     */
+    public static final Integer USER_VIP = 1;
+
+    /**
+     * 用户等级为2高级会员
+     */
+    public static final Integer USER_HIGH_VIP = 2;
 
     /**
      * 车位为1的会员车位
@@ -38,14 +48,44 @@ public class SystemConstant {
     public static final Integer  NO_PAY = 0;
 
     /**
-     * 车位状态
+     * 支付状态为1订单完成
      */
-    public static final Integer PARKING_STATE_0  = 0;
+    public static final Integer  YES_PAY = 1;
 
     /**
-     * 车位状态
+     * 车位状态0空
      */
-    public static final Integer PARKING_STATE_1  = 1;
+    public static final Integer PARKING_STATE_ZERO  = 0;
+
+    /**
+     * 车位状态1有
+     */
+    public static final Integer PARKING_STATE_ONE  = 1;
+
+    /**
+     * 价钱为500
+     */
+    public static final Integer WUBAI  = 500;
+
+    /**
+     * 价钱为200
+     */
+    public static final Integer ERBAI  = 200;
+
+    /**
+     * bigdecimal为0
+     */
+    public static final Integer LING  = 0;
+
+    /**
+     * 八折
+     */
+    public static final Double BAZHE  = 0.8;
+
+    /**
+     * 九折
+     */
+    public static final Double JIUZHE  = 0.9;
 
 
 }
