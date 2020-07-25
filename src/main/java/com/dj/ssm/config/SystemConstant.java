@@ -87,5 +87,6 @@ public class SystemConstant {
      */
     public static final Double JIUZHE  = 0.9;
 
+    public static final Integer ONE = 1;
 
 }

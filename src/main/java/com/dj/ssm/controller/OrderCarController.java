@@ -91,6 +91,7 @@ public class OrderCarController {
 
     /**
      * 修改订单状态 把待付款改为订单完成
+     *
      * @param orderCar
      * @param pay
      * @param user
@@ -112,6 +113,7 @@ public class OrderCarController {
                 updateWrapper.set("car_status", truckSpace.getCarStatus());
                 truckService.update(updateWrapper);
             }
+
             //添加支付信息轨迹
             if (orderCar.getOrderStatus() == SystemConstant.YES_PAY) {
                 Locus locus = new Locus();
@@ -121,30 +123,33 @@ public class OrderCarController {
                 locus.setUserName(user.getUserName());
                 locusService.save(locus);
             }
+
             //计算总金额
             QueryWrapper<OrderCar> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_name", user.getUserName());
             BigDecimal money = new BigDecimal(SystemConstant.LING);
             List<OrderCar> list = orderCarService.list(queryWrapper);
             for (OrderCar one : list) {
-                if(one != null){
+                if (one != null) {
                     money = money.add(one.getPrice());
                 }
             }
 
             //如果消费金额大于500 免费赠送一次
-            if (Double.valueOf(String.valueOf(money)) > 500) {
+            if (Double.valueOf(String.valueOf(money)) > SystemConstant.WUBAI) {
                 QueryWrapper<Fell> wrapper = new QueryWrapper<>();
-                wrapper.eq("user_id",user.getId());
+                wrapper.eq("user_id", user.getId());
                 Fell fell = fellService.getOne(wrapper);
                 if (null == fell) {
                     Fell f = new Fell();
                     f.setUserId(user.getId());
-                    f.setFreeCount(Integer.valueOf(String.valueOf(money.divide(new BigDecimal(500)).setScale( 0, BigDecimal.ROUND_DOWN ))));
-                    f.setFailureCount(0);
+                    // 免费次数 = 消费金额/500
+                    f.setFreeCount(Integer.valueOf(String.valueOf(money.divide(new BigDecimal(SystemConstant.WUBAI)).setScale(SystemConstant.LING, BigDecimal.ROUND_DOWN))));
+                    f.setFailureCount(SystemConstant.LING);
                     fellService.save(f);
                 } else {
-                    fell.setFreeCount(Integer.valueOf(String.valueOf(money.divide(new BigDecimal(500)).setScale( 0, BigDecimal.ROUND_DOWN )))-fell.getFailureCount());
+                    // 剩余免费次数 = 消费金额/500-使用次数
+                    fell.setFreeCount(Integer.valueOf(String.valueOf(money.divide(new BigDecimal(SystemConstant.WUBAI)).setScale(SystemConstant.LING, BigDecimal.ROUND_DOWN))) - fell.getFailureCount());
                     fellService.updateById(fell);
                 }
             }
@@ -153,10 +158,10 @@ public class OrderCarController {
             QueryWrapper<User> queryWrapper1 = new QueryWrapper<>();
             queryWrapper1.eq("user_name", user.getUserName());
             User one = userService.getOne(queryWrapper1);
-            if(Double.valueOf(String.valueOf(money)) >= SystemConstant.ERBAI && Double.valueOf(String.valueOf(money)) < SystemConstant.WUBAI){
+            if (Double.valueOf(String.valueOf(money)) >= SystemConstant.ERBAI && Double.valueOf(String.valueOf(money)) < SystemConstant.WUBAI) {
                 one.setLevel(SystemConstant.USER_VIP);
                 userService.updateById(one);
-            }else if(Double.valueOf(String.valueOf(money)) >= SystemConstant.WUBAI){
+            } else if (Double.valueOf(String.valueOf(money)) >= SystemConstant.WUBAI) {
                 one.setLevel(SystemConstant.USER_HIGH_VIP);
                 userService.updateById(one);
             }
