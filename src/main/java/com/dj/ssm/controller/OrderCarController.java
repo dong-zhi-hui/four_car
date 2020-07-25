@@ -10,14 +10,17 @@ import com.dj.ssm.pojo.*;
 import com.dj.ssm.service.LocusService;
 import com.dj.ssm.service.OrderCarService;
 import com.dj.ssm.service.TruckService;
+import com.dj.ssm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,6 +38,9 @@ public class OrderCarController {
 
     @Autowired
     private LocusService locusService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 订单展示
@@ -101,6 +107,26 @@ public class OrderCarController {
                 locus.setOrderId(orderCar.getId());
                 locus.setUserName(user.getUserName());
                 locusService.save(locus);
+            }
+            QueryWrapper<OrderCar> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("user_name", user.getUserName());
+            BigDecimal big = new BigDecimal(0);
+            List<OrderCar> list = orderCarService.list(queryWrapper);
+            for (OrderCar one : list) {
+                if(one != null){
+                    big = big.add(one.getPrice());
+                }
+            }
+
+            QueryWrapper<User> queryWrapper1 = new QueryWrapper<>();
+            queryWrapper1.eq("user_name", user.getUserName());
+            User one = userService.getOne(queryWrapper1);
+            if(Double.valueOf(String.valueOf(big)) >= 200 && Double.valueOf(String.valueOf(big)) < 500){
+                one.setLevel(1);
+                userService.updateById(one);
+            }else if(Double.valueOf(String.valueOf(big)) >= 500){
+                one.setLevel(2);
+                userService.updateById(one);
             }
             return new ResultModel().success(true);
         } catch (Exception e) {
