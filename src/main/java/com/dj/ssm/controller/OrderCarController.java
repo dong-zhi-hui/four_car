@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author zhw
+ * 订单管理
  */
 @RequestMapping("/order/")
 @RestController
@@ -62,6 +62,7 @@ public class OrderCarController {
             if (user.getLevel() != SystemConstant.USERLEVEL) {
                 queryWrapper.eq("user_name", user.getUserName());
             }
+            queryWrapper.orderByDesc("create_time");
             IPage<OrderCar> orderIPage = orderCarService.page(page, queryWrapper);
             map.put("list", orderIPage.getRecords());
             map.put("pages", orderIPage.getPages());
@@ -149,6 +150,4 @@ public class OrderCarController {
             return new ResultModel().error(e.getMessage());
         }
     }
-
-
 }

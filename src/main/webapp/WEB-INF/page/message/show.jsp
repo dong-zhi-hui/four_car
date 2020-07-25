@@ -119,16 +119,6 @@
             });
         }
 
-        //查看我的留言记录
-        function find(){
-            layer.open({
-                type: 2,
-                title: '查看我的留言记录',
-                shade: 0.8,
-                area: ['800px', '100%'],
-                content: '<%=request.getContextPath()%>/message/toFindMessageExp'
-            });
-        }
 
         //删除
         function del(id){
@@ -164,7 +154,6 @@
     <input type="hidden" value="1" id="pageNo" name="pageNo"/>
     <c:if test="${user.level != 3}">
         <input type = "button" value="我要留言" class="layui-btn" onclick="add()"/>
-        <input type = "button" value="查看我的留言记录" class="layui-btn" onclick="find()"/><br/>
         留言:<input type="text" name="messageContents" style="width: 230px; height: 30px"/>
         <input type = "button" value="搜索" class="layui-btn" onclick="search()"/>
     </c:if>

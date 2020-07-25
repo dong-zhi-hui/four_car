@@ -51,13 +51,5 @@ public class MessagePageController {
         return "message/update";
     }
 
-    /**
-     * 去我的留言记录
-     *
-     * @return
-     */
-    @RequestMapping("toFindMessageExp")
-    public String toFindMessageExp() {
-        return "message/exp";
-    }
+
 }

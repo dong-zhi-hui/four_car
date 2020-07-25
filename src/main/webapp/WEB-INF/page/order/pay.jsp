@@ -45,7 +45,7 @@
         </select>
         <br/>
         <input type="hidden" name="orderStatus" value="1">
-        支付金额${orderCar.price}
+    支付金额<span style="color: red">${orderCar.price}</span>
         <br/>
         <input type="button" onclick="update()" value="确认支付">
 </form>

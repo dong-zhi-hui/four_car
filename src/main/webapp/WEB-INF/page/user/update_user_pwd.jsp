@@ -64,8 +64,26 @@
                     },
 
                     userPwd : {
-                        required : true,
-                        rangelength :[3, 8],
+                        required: true,
+                        rangelength: [3, 8],
+                        remote: {
+                            url: "<%=request.getContextPath()%>/user/userPwd",
+                            type: "post",
+                            data: {
+                                userPwd: function() {
+                                    return $("#userPwd").val();
+                                },
+
+                            },
+                            dataType: "json",
+                            dataFilter: function(data, type) {
+                                if(data == 'true'){
+                                    return true;
+                                }else{
+                                    return false;
+                                }
+                            }
+                        },
                     },
 
                 },
@@ -79,6 +97,7 @@
                     userPwd : {
                         required : "请输入密码",
                         minlength :"密码不得少于3位",
+                        remote : "新密码不可以与旧密码一直",
                     },
 
                 },

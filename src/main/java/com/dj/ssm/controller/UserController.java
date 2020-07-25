@@ -230,10 +230,24 @@ public class UserController {
             if (userQuery.getPassword().equals(user.getUserPwd())) {
                 return true;
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @RequestMapping("userPwd")
+    public boolean userPwd(String userPwd,  @SessionAttribute("user") User user) {
+        try {
+            if (user.getUserPwd().equals(userPwd)) {
+                return false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     /**

@@ -103,9 +103,7 @@ public class TruckController {
                  orderCar.setPrice(truckServiceById.getPrice().multiply(BigDecimal.valueOf(SystemConstant.JIUZHE)));
                  //   //用户等级为2的高级会员 打八折
             } else if (user.getLevel() == SystemConstant.USER_HIGH_VIP){
-                 orderCar.setPrice(truckServiceById.getPrice().multiply(BigDecimal.valueOf(SystemConstant.BAZHE)));
-                orderCar.setFree(1);
-
+                 orderCar.setPrice(truckServiceById.getPrice().multiply(BigDecimal.valueOf(SystemConstant.JIUZHE)));
             }else {
                 orderCar.setPrice(truckServiceById.getPrice());
             }
