@@ -108,10 +108,11 @@ public class TruckController {
                 QueryWrapper<Fell> wrapper = new QueryWrapper<>();
                 wrapper.eq("user_id",user.getId());
                 Fell fell = fellService.getOne(wrapper);
-                if(null != fell && fell.getFreeCount() > 0) {
-                    fell.setFailureCount(fell.getFailureCount()+1);
+                // 如果免费次数大于0并且fell不等于null 已免次数+1 订单价格为0
+                if(null != fell && fell.getFreeCount() > SystemConstant.LING) {
+                    fell.setFailureCount(fell.getFailureCount()+SystemConstant.ONE);
                     fellService.updateById(fell);
-                    orderCar.setPrice(BigDecimal.valueOf(0));
+                    orderCar.setPrice(BigDecimal.valueOf(SystemConstant.LING));
                 }
             }else {
                 orderCar.setPrice(truckServiceById.getPrice());
