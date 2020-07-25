@@ -141,7 +141,6 @@ public class OrderCarController {
             }else if(Double.valueOf(String.valueOf(money)) >= SystemConstant.WUBAI){
                 one.setLevel(SystemConstant.USER_HIGH_VIP);
                 userService.updateById(one);
-
             }
             session.setAttribute("user", one);
             return new ResultModel().success(true);
