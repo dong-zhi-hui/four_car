@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -88,13 +89,13 @@ public class OrderCarController {
     }
 
     @RequestMapping("updatePay")
-    public ResultModel updatePay(OrderCar orderCar, String pay, @SessionAttribute("user") User user) {
+    public ResultModel updatePay(OrderCar orderCar, String pay, @SessionAttribute("user") User user, HttpSession session) {
         try {
             orderCarService.updateById(orderCar);
             OrderCar orderCar1 = orderCarService.getById(orderCar.getId());
-            if (orderCar1 != null && orderCar1.getOrderStatus() == 1) {
+            if (orderCar1 != null && orderCar1.getOrderStatus() == SystemConstant.YES_PAY) {
                 TruckSpace truckSpace = new TruckSpace();
-                truckSpace.setCarStatus(0);
+                truckSpace.setCarStatus(SystemConstant.PARKING_STATE_ZERO);
                 UpdateWrapper<TruckSpace> updateWrapper = new UpdateWrapper<>();
                 updateWrapper.eq("car_number", orderCar1.getCarNumber());
                 updateWrapper.set("car_status", truckSpace.getCarStatus());
@@ -110,24 +111,25 @@ public class OrderCarController {
             }
             QueryWrapper<OrderCar> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_name", user.getUserName());
-            BigDecimal big = new BigDecimal(0);
+            BigDecimal money = new BigDecimal(SystemConstant.LING);
             List<OrderCar> list = orderCarService.list(queryWrapper);
             for (OrderCar one : list) {
                 if(one != null){
-                    big = big.add(one.getPrice());
+                    money = money.add(one.getPrice());
                 }
             }
 
             QueryWrapper<User> queryWrapper1 = new QueryWrapper<>();
             queryWrapper1.eq("user_name", user.getUserName());
             User one = userService.getOne(queryWrapper1);
-            if(Double.valueOf(String.valueOf(big)) >= 200 && Double.valueOf(String.valueOf(big)) < 500){
-                one.setLevel(1);
+            if(Double.valueOf(String.valueOf(money)) >= SystemConstant.ERBAI && Double.valueOf(String.valueOf(money)) < SystemConstant.WUBAI){
+                one.setLevel(SystemConstant.USER_VIP);
                 userService.updateById(one);
-            }else if(Double.valueOf(String.valueOf(big)) >= 500){
-                one.setLevel(2);
+            }else if(Double.valueOf(String.valueOf(money)) >= SystemConstant.WUBAI){
+                one.setLevel(SystemConstant.USER_HIGH_VIP);
                 userService.updateById(one);
             }
+            session.setAttribute("user", one);
             return new ResultModel().success(true);
         } catch (Exception e) {
             e.printStackTrace();

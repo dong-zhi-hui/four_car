@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -74,7 +75,7 @@ public class TruckController {
             queryWrapper.eq("user_name", user.getUserName());
             List<OrderCar> list = orderCarService.list(queryWrapper);
             for (OrderCar one : list) {
-                if (one != null && one.getOrderStatus() == 0) {
+                if (one != null && one.getOrderStatus() == SystemConstant.NO_PAY) {
                     return new ResultModel().error("您已经停过车");
                 }
             }
@@ -88,7 +89,13 @@ public class TruckController {
             orderCar.setCreateTime(LocalDateTime.now());
             orderCar.setPlateNumber(user.getPlateNumber());
             orderCar.setCarNumber(truckServiceById.getCarNumber());
-            orderCar.setPrice(truckServiceById.getPrice());
+            if (user.getLevel() == SystemConstant.USER_VIP){
+                 orderCar.setPrice(truckServiceById.getPrice().multiply(BigDecimal.valueOf(SystemConstant.JIUZHE)));
+            } else if (user.getLevel() == SystemConstant.USER_HIGH_VIP){
+                 orderCar.setPrice(truckServiceById.getPrice().multiply(BigDecimal.valueOf(SystemConstant.JIUZHE)));
+            }else {
+                orderCar.setPrice(truckServiceById.getPrice());
+            }
             orderCar.setOrderStatus(SystemConstant.NO_PAY);
             orderCarService.save(orderCar);
             return new ResultModel().success(true);
@@ -163,9 +170,9 @@ public class TruckController {
         Map<String, Object> map = new HashMap<>();
         try {
             //空置
-            Integer count1 = truckService.findTruckByCount(SystemConstant.PARKING_STATE_0);
+            Integer count1 = truckService.findTruckByCount(SystemConstant.PARKING_STATE_ZERO);
             //已预约
-            Integer count2 = truckService.findTruckByCount(SystemConstant.PARKING_STATE_1);
+            Integer count2 = truckService.findTruckByCount(SystemConstant.PARKING_STATE_ONE);
             //总车位
             Integer countAll = count1 + count2;
             map.put("countAll", countAll);
