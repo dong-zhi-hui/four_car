@@ -44,6 +44,7 @@ public class MessageController {
             if (StringUtils.hasText(truckSpaceQuery.getMessageContents())) {
                 queryWrapper.like("message_contents", truckSpaceQuery.getMessageContents());
             }
+            queryWrapper.orderByDesc("create_time");
             IPage<Message> messageIPage = messageService.page(page, queryWrapper);
             map.put("list", messageIPage.getRecords());
             map.put("pages", messageIPage.getPages());
@@ -116,24 +117,4 @@ public class MessageController {
             return new ResultModel().error("服务器异常,请稍后重试");
         }
     }
-
-    /**
-     * 查看我的留言记录
-     *
-     * @param user
-     * @return
-     */
-    @RequestMapping("findMessageList")
-    public ResultModel findMessageList(@SessionAttribute("user") User user) {
-        try {
-            QueryWrapper<Message> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("user_name", user.getUserName());
-            List<Message> list = messageService.list(queryWrapper);
-            return new ResultModel().success(list);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResultModel().error("服务器异常,请稍后重试");
-        }
-    }
-
 }

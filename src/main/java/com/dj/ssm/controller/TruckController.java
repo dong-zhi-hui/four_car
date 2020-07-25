@@ -89,6 +89,7 @@ public class TruckController {
             orderCar.setCreateTime(LocalDateTime.now());
             orderCar.setPlateNumber(user.getPlateNumber());
             orderCar.setCarNumber(truckServiceById.getCarNumber());
+
             if (user.getLevel() == SystemConstant.USER_VIP){
                  orderCar.setPrice(truckServiceById.getPrice().multiply(BigDecimal.valueOf(SystemConstant.JIUZHE)));
             } else if (user.getLevel() == SystemConstant.USER_HIGH_VIP){

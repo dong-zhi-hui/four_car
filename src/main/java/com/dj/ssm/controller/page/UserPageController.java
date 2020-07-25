@@ -65,4 +65,13 @@ public class UserPageController {
         model.addAttribute("updateUser", user);
         return "user/update_user";
     }
+
+    /**
+     * 去验证
+     */
+    @RequestMapping("updateStatus")
+    public String updateStatus(User user) {
+        userService.updateById(user);
+        return "user/login";
+    }
 }

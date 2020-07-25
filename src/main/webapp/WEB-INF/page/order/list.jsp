@@ -11,7 +11,7 @@
 <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layer-v3.1.1/layer/layer.js"></script>
 <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layui-v2.5.6/layui/layui.js"></script>
 <script type="text/javascript">
-	
+
 	$(function () {
 		search();
 	})
