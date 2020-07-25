@@ -67,6 +67,7 @@ public class TruckController {
 
     /**
      * 更改车辆管理状态 空置已预约
+     *
      * @param truckSpace
      * @param user
      * @return
@@ -100,21 +101,21 @@ public class TruckController {
             orderCar.setPlateNumber(user.getPlateNumber());
             orderCar.setCarNumber(truckServiceById.getCarNumber());
             //用户等级为1的会员 打九折
-            if (user.getLevel() == SystemConstant.USER_VIP){
-                 orderCar.setPrice(truckServiceById.getPrice().multiply(BigDecimal.valueOf(SystemConstant.JIUZHE)));
-                 //   //用户等级为2的高级会员 打八折
-            } else if (user.getLevel() == SystemConstant.USER_HIGH_VIP){
+            if (user.getLevel() == SystemConstant.USER_VIP) {
+                orderCar.setPrice(truckServiceById.getPrice().multiply(BigDecimal.valueOf(SystemConstant.JIUZHE)));
+                //   //用户等级为2的高级会员 打八折
+            } else if (user.getLevel() == SystemConstant.USER_HIGH_VIP) {
                 orderCar.setPrice(truckServiceById.getPrice().multiply(BigDecimal.valueOf(SystemConstant.BAZHE)));
                 QueryWrapper<Fell> wrapper = new QueryWrapper<>();
-                wrapper.eq("user_id",user.getId());
+                wrapper.eq("user_id", user.getId());
                 Fell fell = fellService.getOne(wrapper);
                 // 如果免费次数大于0并且fell不等于null 已免次数+1 订单价格为0
-                if(null != fell && fell.getFreeCount() > SystemConstant.LING) {
-                    fell.setFailureCount(fell.getFailureCount()+SystemConstant.ONE);
+                if (null != fell && fell.getFreeCount() > SystemConstant.LING) {
+                    fell.setFailureCount(fell.getFailureCount() + SystemConstant.ONE);
                     fellService.updateById(fell);
                     orderCar.setPrice(BigDecimal.valueOf(SystemConstant.LING));
                 }
-            }else {
+            } else {
                 orderCar.setPrice(truckServiceById.getPrice());
             }
             orderCar.setOrderStatus(SystemConstant.NO_PAY);

@@ -19,31 +19,31 @@ public class TruckPageController {
     private TruckService truckService;
 
     @RequestMapping("toList")
-    public String toList(){
+    public String toList() {
         return "truck/list";
     }
 
     @RequestMapping("toUpdate/{id}")
-    public String toUpdate(@PathVariable Integer id, Model model){
+    public String toUpdate(@PathVariable Integer id, Model model) {
         TruckSpace truckSpace = truckService.getById(id);
         model.addAttribute("truckSpace", truckSpace);
         return "truck/update";
     }
 
     @RequestMapping("toAdd")
-    public String toAdd(){
+    public String toAdd() {
         return "truck/add";
     }
 
     /**
      * echarts
+     *
      * @return
      */
     @RequestMapping("echarts")
-    public String echarts(){
+    public String echarts() {
         return "truck/echarts";
     }
-
 
 
 }

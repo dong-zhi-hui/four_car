@@ -5,15 +5,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
 
     @Autowired
     private MyInterceptor myInterceptor;
 
-    public void addInterceptors(InterceptorRegistry registry){
+    public void addInterceptors(InterceptorRegistry registry) {
 
-        InterceptorRegistration interruptedException =  registry.addInterceptor(myInterceptor);
+        InterceptorRegistration interruptedException = registry.addInterceptor(myInterceptor);
 
         //拦截请求
         interruptedException.addPathPatterns("/**");

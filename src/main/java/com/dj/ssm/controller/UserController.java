@@ -238,7 +238,7 @@ public class UserController {
     }
 
     @RequestMapping("userPwd")
-    public boolean userPwd(String userPwd,  @SessionAttribute("user") User user) {
+    public boolean userPwd(String userPwd, @SessionAttribute("user") User user) {
         try {
             if (user.getUserPwd().equals(userPwd)) {
                 return false;
