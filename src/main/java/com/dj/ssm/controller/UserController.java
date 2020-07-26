@@ -138,7 +138,6 @@ public class UserController {
             userService.saveUser(user);
             SendMailUtils.sendEmail("1599814565@qq.com", "用户激活", "<a href='http://127.0.0.1:8080/" +
                     "user/updateStatus?id=" + user.getId() + "&userStatus=1'>点此激活</a>");
-            SendMailUtils.sendEmail("1599814565@qq.com", "注册成功", "<h1>恭喜您！注册成功！</h1>");
             return new ResultModel().success();
         } catch (Exception e) {
             e.printStackTrace();

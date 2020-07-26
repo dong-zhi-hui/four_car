@@ -12,6 +12,10 @@
     <script type="text/javascript" src = "<%=request.getContextPath()%>/static/js/jquery-1.12.4.js"></script>
     <script type="text/javascript" src = "<%=request.getContextPath()%>/static/jquery-validation-1.14.0/dist/jquery.validate.js"></script>
     <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layer-v3.1.1/layer/layer.js"></script>
+    <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layui-v2.5.6/layui/layui.js"></script>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/static/layui-v2.5.6/layui/css/layui.css"  media="all">
+
+
     <script type="text/javascript">
         function login() {
             var index = layer.load(3,{shade:0.5});
@@ -80,10 +84,10 @@
 <body>
 
 <form id="fm">
-    手机号：    <input type="text" name="phone" /><br/>
-    验证码：<input type="text" name="code" id = "code" /><br/>
-    <input type="button" value="获取验证码" onclick="getCode(this)" /><br/>
-    <input type="button" value="登录" onclick="login()" />
+    手机号：    <input type="text" name="phone" style="width: 230px; height: 30px"/><br/>
+    验证码：<input type="text" name="code" id = "code" style="width: 230px; height: 30px"/>
+    <input type="button" value="获取验证码" onclick="getCode(this)" class="layui-btn"/><br/>
+    <input type="button" value="登录" onclick="login()" class="layui-btn"/>
 
 </form>
 

@@ -64,9 +64,10 @@
                     }
 				}
                 $("#tbd").html(html);
-                pageInfo += "<input type = 'button' value='上一页' onclick='page(0, "+data.data.pages+")'/>";
-
-                pageInfo += "<input type = 'button' value='下一页' onclick='page(1, "+data.data.pages+")'/>";
+                pages = data.data.pages;
+                pageInfo += "<input type = 'button' class=\"layui-btn\" value='上一页' onclick='page(0, "+data.data.pages+")'/>";
+                pageInfo +="第"+$("#pageNo").val()+"/"+pages+"页";
+                pageInfo += "<input type = 'button' class=\"layui-btn\" value='下一页' onclick='page(1, "+data.data.pages+")'/>";
                 $("#pageInfo").html(pageInfo);
 			})
 	}

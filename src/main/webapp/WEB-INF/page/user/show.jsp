@@ -14,6 +14,7 @@
     <script type="text/javascript" src = "<%=request.getContextPath()%>/static/js/jquery-1.12.4.js"></script>
     <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layer-v3.1.1/layer/layer.js"></script>
     <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layui-v2.5.6/layui/layui.js"></script>
+    <script type="text/javascript" src = "<%=request.getContextPath()%>/static/layui-v2.5.6/layui/layui.all.js"></script>
     <script type="text/javascript">
         var level = ${user.level}
         
@@ -74,7 +75,7 @@
                     }
                     $("#tbd").html(html);
                     pages = data.data.pages;
-                    pageInfo += "<input type = 'button' class=\"layui-btn\" value='下一页' onclick='page(0, "+data.data.pages+")'/>";
+                    pageInfo += "<input type = 'button' class=\"layui-btn\" value='上一页' onclick='page(0, "+data.data.pages+")'/>";
                     pageInfo +="第"+$("#pageNo").val()+"/"+pages+"页";
                     pageInfo += "<input type = 'button' class=\"layui-btn\" value='下一页' onclick='page(1, "+data.data.pages+")'/>";
                     $("#pageInfo").html(pageInfo);

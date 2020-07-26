@@ -91,7 +91,7 @@
                     },
                     plateNumber :{
                         required : true,
-                        maxlength:6,
+                        maxlength:8,
                         remote: {
                             url: "<%=request.getContextPath()%>/user/findUserNameOrPhoneOrPlateNumber",
                             type: "post",
@@ -130,7 +130,7 @@
                     },
                     plateNumber :{
                         required : "请输入车牌号号",
-                        maxlength:"车牌号必须6位",
+                        maxlength:"车牌号最少8位",
                         remote : "车牌号已存在",
                     },
                 },
