@@ -109,12 +109,18 @@
 			"<%=request.getContextPath()%>/order/del",
 			{"id":id},
 			function(data){
-				layer.close(index);
-				if (data.code == 200) {
-					layer.msg(data.msg, {icon:1});
-					search();
-				}
-			}) 
+                layer.close(index);
+                if (data.code != 200) {
+                    layer.msg(data.msg,{icon:5});
+                    return;
+                }
+                layer.msg(data.msg, {
+                    icon: 6,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function(){
+                    window.location.href = "<%=request.getContextPath() %>/order/toList";
+                });
+            })
 	}
 
     function find() {

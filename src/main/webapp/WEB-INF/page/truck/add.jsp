@@ -83,7 +83,7 @@
 
 	车位等级<input type="radio" name="carLevel" value="0" checked>普通车位
 	<input type="radio" name="carLevel" value="1" >会员车位<br />
-	<input type="submit" value="增加"/>
+	<input type="submit" value="增加" class="layui-btn"/>
 </form>
 </body>
 </html>

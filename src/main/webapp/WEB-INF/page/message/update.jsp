@@ -38,7 +38,7 @@
 	留言时间:${message.createTime} <br />
 	留言人:${message.userName} <br />
 	回复内容:<input type="text" name="response" value="${message.response}"/> <br />
-	<input type="button" value="回复" onclick="upd()"/>
+	<input type="button" value="回复" onclick="upd()" class="layui-btn"/>
 </form>
 </body>
 </html>

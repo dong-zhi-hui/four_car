@@ -52,7 +52,7 @@
                     },
                     plateNumber :{
                         required : true,
-                        maxlength:6,
+                        maxlength:7,
 
                     },
                 },
@@ -67,7 +67,7 @@
                     },
                     plateNumber :{
                         required : "请输入车牌号号",
-                        maxlength:"车牌号必须6位",
+                        maxlength:"车牌号必须7位",
                     },
                 },
             });
@@ -88,7 +88,7 @@
     车牌号<input type="text" name="plateNumber" value="${updateUser.plateNumber}" style="width: 230px; height: 30px" /><br>
     状态:无效<input type="radio" name="userStatus"  <c:if test="${updateUser.userStatus == 0}"> checked = "checked" </c:if> value="0" />
         有效<input type="radio" name="userStatus" <c:if test="${updateUser.userStatus == 1}"> checked = "checked" </c:if> value="1"/><br>
-    <input  type = "submit" value = "注册"  class="layui-btn" >
+    <input  type = "submit" value = "修改"  class="layui-btn" >
 </form>
 </body>
 </html>

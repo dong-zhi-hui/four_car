@@ -38,7 +38,7 @@
 	车位价格:<input type="text" name="price" value="${truckSpace.price}"/><br />
 	车位等级<input type="radio" name="carLevel" value="0" <c:if test="${truckSpace.carLevel == 0}">checked</c:if>>普通车位
 	<input type="radio" name="carLevel" value="1" <c:if test="${truckSpace.carLevel == 1}">checked</c:if>>会员车位<br />
-	<input type="button" value="修改" onclick="upd()"/>
+	<input type="button" value="修改" onclick="upd()" class="layui-btn"/>
 </form>
 </body>
 </html>
