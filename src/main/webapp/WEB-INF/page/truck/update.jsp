@@ -13,7 +13,7 @@
 
 	 function upd() {
 		 var index = layer.load(1,{shade:0.5});
-		 $.post("<%=request.getContextPath()%>/truck/update",
+		 $.post("<%=request.getContextPath()%>/truck/updateTruck",
 				 $("#fm").serialize(),
 				 function (data) {
 					 layer.close(index);
@@ -36,8 +36,6 @@
          <input type="hidden" name="id" value="${truckSpace.id}"/>
 	车位编号:<input type="text" name="carNumber" value="${truckSpace.carNumber}"/><br />
 	车位价格:<input type="text" name="price" value="${truckSpace.price}"/><br />
-	车位状态<input type="radio" name="carStatus" value="0" <c:if test="${truckSpace.carStatus == 0}">checked</c:if>>空置
-	<input type="radio" name="carStatus" value="1" <c:if test="${truckSpace.carStatus == 1}">checked</c:if>>已预约<br />
 	车位等级<input type="radio" name="carLevel" value="0" <c:if test="${truckSpace.carLevel == 0}">checked</c:if>>普通车位
 	<input type="radio" name="carLevel" value="1" <c:if test="${truckSpace.carLevel == 1}">checked</c:if>>会员车位<br />
 	<input type="button" value="修改" onclick="upd()"/>

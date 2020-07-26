@@ -208,5 +208,22 @@ public class TruckController {
         }
     }
 
+    /**
+     * 修改车位信息
+     *
+     * @param truckSpace
+     * @return
+     */
+    @RequestMapping("updateTruck")
+    public ResultModel updateTruck(TruckSpace truckSpace) {
+        try {
+            truckService.updateById(truckSpace);
+            return new ResultModel().success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel().error("服务器异常,请稍后再试");
+        }
+    }
+
 
 }

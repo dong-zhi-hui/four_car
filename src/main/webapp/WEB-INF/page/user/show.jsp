@@ -146,7 +146,7 @@
 <form id = "fm" align="center">
     <input type="hidden" value="1" id="pageNo" name="pageNo"/>
     <c:if test="${user.level == 3}">
-        搜车位：<input type="text" name="userName" style="width: 230px; height: 30px" >
+        搜用户名：<input type="text" name="userName" style="width: 230px; height: 30px" >
         <input  type = "button" value = "搜索"  class="layui-btn" onclick="search()">
     </c:if>
 </form>
