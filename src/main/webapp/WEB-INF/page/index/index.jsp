@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -25,6 +26,7 @@
 </head>
 <body class="layui-layout-body">
 
+
 <div class="layui-layout layui-layout-admin">
 	<div class="layui-header">
 		<div class="layui-logo">易泊车</div>
@@ -40,12 +42,12 @@
 			</li>
 			<li class="layui-nav-item"><a href="<%=request.getContextPath()%>/index/toEsc">退出登录</a></li>
 			<audio src="http://rm.sina.com.cn/wm/VZ2010050511043310440VK/music/MUSIC1005051622027270.mp3"
-				   preload="meta" loop autoplay="autoplay" id="bgmusic" controls="controls" class="layui-nav-item"></audio>
+				   preload="meta" loop autoplay id="bgmusic" autoplay="autoplay" controls="controls" ></audio>
 		</ul>
 	</div>
 
 	<div class="layui-side layui-bg-black">
-		<li class="layui-side-scroll">
+		<div class="layui-side-scroll">
 			<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
 			<ul class="layui-nav layui-nav-tree"  lay-filter="test">
 
@@ -64,6 +66,7 @@
 					<li class="layui-nav-item">
 						<a  href="<%=request.getContextPath()%>/order/toList"  target="iframe">订单管理</a>
 					</li>
+
 
 			</ul>
 		</div>

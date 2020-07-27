@@ -144,12 +144,14 @@ public class OrderCarController {
                     Fell f = new Fell();
                     f.setUserId(user.getId());
                     // 免费次数 = 消费金额/500
-                    f.setFreeCount(Integer.valueOf(String.valueOf(money.divide(new BigDecimal(SystemConstant.WUBAI)).setScale(SystemConstant.LING, BigDecimal.ROUND_DOWN))));
+                    f.setFreeCount(Integer.valueOf(String.valueOf(money.divide(new BigDecimal(SystemConstant.WUBAI)).
+                            setScale(SystemConstant.LING, BigDecimal.ROUND_DOWN))));
                     f.setFailureCount(SystemConstant.LING);
                     fellService.save(f);
                 } else {
                     // 剩余免费次数 = 消费金额/500-使用次数
-                    fell.setFreeCount(Integer.valueOf(String.valueOf(money.divide(new BigDecimal(SystemConstant.WUBAI)).setScale(SystemConstant.LING, BigDecimal.ROUND_DOWN))) - fell.getFailureCount());
+                    fell.setFreeCount(Integer.valueOf(String.valueOf(money.divide(new BigDecimal(SystemConstant.WUBAI))
+                            .setScale(SystemConstant.LING, BigDecimal.ROUND_DOWN))) - fell.getFailureCount());
                     fellService.updateById(fell);
                 }
             }
@@ -158,7 +160,8 @@ public class OrderCarController {
             QueryWrapper<User> queryWrapper1 = new QueryWrapper<>();
             queryWrapper1.eq("user_name", user.getUserName());
             User one = userService.getOne(queryWrapper1);
-            if (Double.valueOf(String.valueOf(money)) >= SystemConstant.ERBAI && Double.valueOf(String.valueOf(money)) < SystemConstant.WUBAI) {
+            if (Double.valueOf(String.valueOf(money)) >= SystemConstant.ERBAI && Double.valueOf(String.valueOf(money))
+                    < SystemConstant.WUBAI) {
                 one.setLevel(SystemConstant.USER_VIP);
                 userService.updateById(one);
             } else if (Double.valueOf(String.valueOf(money)) >= SystemConstant.WUBAI) {
