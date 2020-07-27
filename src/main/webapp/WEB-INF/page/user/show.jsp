@@ -63,9 +63,12 @@
                         }
                         html += "<td>"
                         html += "<div class='layui-btn-group'>"
-                        if(level == 3  ){
+                        if(level == 3 ){
                             html += "<button  type = \"button\" class=\"layui-btn\" onclick=\"upd("+u.id+")\">修改信息</button>"
-                            html += "<button  type = \"button\" class=\"layui-btn\" onclick=\"del("+u.id+")\">删除用户</button>"
+                            if(u.level != 3){
+                                html += "<button  type = \"button\" class=\"layui-btn\" onclick=\"del("+u.id+")\">删除用户</button>"
+                            }
+
                         } else if(level != 3){
                             html += "<button  type = \"button\" class=\"layui-btn\" onclick=\"toUpdateUserPwd("+u.id+")\">修改密码</button>"
                         }

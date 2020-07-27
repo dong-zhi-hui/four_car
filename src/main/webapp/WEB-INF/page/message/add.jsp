@@ -42,7 +42,7 @@
 <form id = "fm" align="center">
     留言内容: <input type="text" name="messageContents" id = "messageContents" style="width: 230px; height: 30px" >
 
-    <input  type = "button" value = "新增"  class="layui-btn" onclick="add()">
+    <input  type = "button" value = "留言"  class="layui-btn" onclick="add()">
 </form>
 </body>
 </html>
