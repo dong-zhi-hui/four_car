@@ -25,9 +25,6 @@
 </head>
 <body class="layui-layout-body">
 
-<audio src="https://img.tukuppt.com/newpreview_music/08/99/75/5c8996018f21e66371.mp3"
-	   preload="meta" loop autoplay="autoplay" id="bgmusic"  controls="controls"></audio>
-
 <div class="layui-layout layui-layout-admin">
 	<div class="layui-header">
 		<div class="layui-logo">易泊车</div>
@@ -42,11 +39,13 @@
 
 			</li>
 			<li class="layui-nav-item"><a href="<%=request.getContextPath()%>/index/toEsc">退出登录</a></li>
+			<audio src="http://rm.sina.com.cn/wm/VZ2010050511043310440VK/music/MUSIC1005051622027270.mp3"
+				   preload="meta" loop autoplay="autoplay" id="bgmusic" controls="controls" class="layui-nav-item"></audio>
 		</ul>
 	</div>
 
 	<div class="layui-side layui-bg-black">
-		<div class="layui-side-scroll">
+		<li class="layui-side-scroll">
 			<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
 			<ul class="layui-nav layui-nav-tree"  lay-filter="test">
 
@@ -65,7 +64,6 @@
 					<li class="layui-nav-item">
 						<a  href="<%=request.getContextPath()%>/order/toList"  target="iframe">订单管理</a>
 					</li>
-
 
 			</ul>
 		</div>
