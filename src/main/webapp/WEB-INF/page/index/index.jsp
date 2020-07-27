@@ -8,9 +8,26 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Insert title here</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/static/layui-v2.5.6/layui/css/layui.css"  >
-
+	<script type="text/javascript" src = "<%=request.getContextPath()%>/static/js/jquery-1.12.4.js"></script>
+	<script type="text/javascript">
+		var bgmusic = document.getElementById('bgmusic');
+		bgmusic.addEventListener('canplay', function(){
+			this.play();
+		}, false);
+		window.addEventListener('load', function(){
+			window.addEventListener('touchstart', once, false);
+		}, false);
+		function once(){
+			bgmusic.play();
+			window.removeEventListener('touchstart', once, false);
+		}
+	</script>
 </head>
 <body class="layui-layout-body">
+
+<audio src="https://img.tukuppt.com/newpreview_music/08/99/75/5c8996018f21e66371.mp3"
+	   preload="meta" loop autoplay="autoplay" id="bgmusic"  controls="controls"></audio>
+
 <div class="layui-layout layui-layout-admin">
 	<div class="layui-header">
 		<div class="layui-logo">易泊车</div>
