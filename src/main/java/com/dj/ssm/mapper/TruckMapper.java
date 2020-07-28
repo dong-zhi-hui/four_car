@@ -10,4 +10,5 @@ import org.springframework.dao.DataAccessException;
 public interface TruckMapper extends BaseMapper<TruckSpace> {
 
     Integer findTruckByCount(int i) throws DataAccessException;
+
 }
